@@ -5,7 +5,11 @@ class ServerWindow < Window
     super 200 , 100 , false
     
     @network = network
-    @network.on :connect do |client_id| puts "A new client connected" end
+    
+    @network.on :connect do |client_id|
+      @network.send_tcp_message_to client_id , LoadMap.new(@map)
+    end
+    
     @network.on :message do |message|   self.handle_message message   end
   end
   
@@ -25,7 +29,7 @@ class ServerWindow < Window
 
   def load_map(map_name)
     map_path = File.dirname(__FILE__) + "/../../../assets/maps/" + map_name + ".map"
-    @map = Map.new YAML::load_file(map_path)[:tiles] , self
+    @map = BaseMap.new YAML::load_file(map_path)[:tiles] , self
   end
     
   def start

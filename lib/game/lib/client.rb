@@ -7,10 +7,17 @@ class ClientWindow < Window
   end
   
   def handle_message(message)
-    puts message
+    case message
+    when LoadMap then @map = ClientMap.new(message.tiles , self)
+    end
   end
   
   def draw
+    if @map
+      @map.tiles.each do |tile|
+        tile.image.draw tile.x * tile.image.width , tile.y * tile.image.height , 1
+      end
+    end
   end
   
   def update

@@ -11,6 +11,7 @@ module TCPHandler
   end
   
   def receive_object(object)
+    puts object
     if object.kind_of? CommandMessage
       handle_command_message object
     else

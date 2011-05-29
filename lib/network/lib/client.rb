@@ -3,10 +3,9 @@ require "socket"
 class GameClient
   include Callback
   
-  def initialize(ip , tcp_port , udp_port)
+  def initialize(ip , tcp_port)
     @server_ip         = ip
     @server_tcp_port   = tcp_port
-    @server_udp_port   = udp_port
     @periodic_timers   = Hash.new
   end
   
@@ -18,14 +17,7 @@ class GameClient
     case message
     when ClientId
       @id = message.id
-      @udp_socket.send_object UDPPort.new(@id) , @server_ip , @server_udp_port
       emit :connect
-    end
-  end
-  
-  def start_udp_socket
-    @udp_socket = EventMachine::open_datagram_socket "localhost" , 0 , UDPHandler do |connection|
-      connection.on :message do |message| self.deliver_message message end
     end
   end
   
@@ -41,15 +33,9 @@ class GameClient
     @tcp_socket.send_object object
   end
   
-  def send_udp_message(object)
-    object.id = @id
-    @udp_socket.send_object object , @server_ip , @server_udp_port
-  end
-  
   def start
     Thread.new do
       EventMachine::run do
-        self.start_udp_socket
         self.start_tcp_socket
       end
     end
