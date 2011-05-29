@@ -14,9 +14,16 @@ class BaseMap
   def initialize(tiles , surface)
     @original_tiles = tiles
     
+    @start_x = -1
+    @start_y = 0
+    
     @tiles = tiles.map do |info|
       BaseMapTile.new info[:x] , info[:y] , info[:type]
     end
+  end
+  
+  def next_starting_position
+    {x: @start_x += 1 , y: @start_y}
   end
 end
 

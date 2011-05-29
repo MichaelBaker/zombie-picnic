@@ -9,6 +9,6 @@ class Images
   end
   
   def self.[](image_name)
-    @@images["#{image_name}_tile".to_sym]
+    @@images[image_name.to_sym]
   end
 end
