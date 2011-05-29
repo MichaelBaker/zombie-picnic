@@ -1,3 +1,5 @@
+require "yaml"
+
 class ServerWindow < Window
   def initialize(network)
     super 200 , 100 , false
@@ -20,7 +22,12 @@ class ServerWindow < Window
   def button_down(id)
     close if id == Gosu::KbEscape
   end
-  
+
+  def load_map(map_name)
+    map_path = File.dirname(__FILE__) + "/../../../assets/maps/" + map_name + ".map"
+    @map = Map.new YAML::load_file(map_path)[:tiles] , self
+  end
+    
   def start
     @network.start
     show

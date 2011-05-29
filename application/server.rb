@@ -5,5 +5,6 @@ require_relative "../lib/game/game"
 
 network = GameServer.new 8337 , 8338
 game    = ServerWindow.new network
+game.load_map "map"
 
 game.start
