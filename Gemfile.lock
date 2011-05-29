@@ -1,0 +1,12 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    eventmachine (0.12.10)
+    gosu (0.7.31)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  eventmachine (~> 0.12)
+  gosu (~> 0.7)

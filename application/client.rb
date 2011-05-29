@@ -1,10 +1,14 @@
 #!/usr/bin/env ruby
 
+require "yaml"
+
 require_relative "../lib/network/game-networking"
 require_relative "../lib/game/game"
 require_relative "../lib/game/lib/images"
 
-network = GameClient.new "localhost" , 8337
+settings = YAML::load_file File.dirname(__FILE__) + "/settings.yml"
+
+network = GameClient.new settings[:ip] , settings[:port]
 game    = ClientWindow.new network
 
 Images.load game
