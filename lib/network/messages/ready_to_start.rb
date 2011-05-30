@@ -1,0 +1,2 @@
+class ReadyToStart < Message
+end

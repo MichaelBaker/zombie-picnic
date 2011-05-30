@@ -1,19 +1,25 @@
 TranslucentBlack = Color.rgba(0 , 0 , 0 , 100)
 
 class ClientWindow < Window
-  attr_accessor :entities , :network , :map , :message , :message_changed , :state
+  attr_accessor :entities , :network , :map , :message , :message_changed , :state , :name
   
-  def initialize(network)
+  def initialize(network , name)
     super 1280 , 800 , false
-    
+
+    @name            = name
     @entities        = Entities.new
     @state           = ClientWaitingToStartState.new(self)
-    @message         = "Waiting to start"
+    @message         = "Hey there! Hit ENTER when you're ready to start"
     @message_image   = Image.from_text(self , @message , "Arial" , 32)
     @message_changed = false
     
     @network = network
     @network.on :message do |message| self.state.handle_message message end
+  end
+  
+  def message=(message)
+    @message         = message
+    @message_changed = true
   end
   
   def draw
@@ -40,7 +46,8 @@ class ClientWindow < Window
   end
   
   def button_down(id)
-    close if id == Gosu::KbEscape
+    close if id == KbEscape
+    @state.button_down id
   end
   
   def start

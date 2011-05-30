@@ -1,12 +1,9 @@
 class Message
-  attr_accessor :id , :content , :udp_port
-  
-  def initialize(content)
-    @content = content
-  end
+  attr_accessor :client_id
 end
 
 class CommandMessage < Message
+  attr_accessor :id , :content , :udp_port
 end
 
 class ClientId < CommandMessage

@@ -29,7 +29,6 @@ class GameClient
   end
   
   def send_tcp_message(object)
-    object.id = @id
     @tcp_socket.send_object object
   end
   

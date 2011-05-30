@@ -1,0 +1,2 @@
+class RequestName < Message
+end

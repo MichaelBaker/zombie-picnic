@@ -20,8 +20,8 @@ class GameServer
     @next_id += 1
   end
   
-  def deliver_message(message)
-    emit :message , message
+  def deliver_message(client_id , message)
+    emit :message , client_id , message
   end
   
   def handle_command_message(message)
@@ -29,8 +29,8 @@ class GameServer
   
   def start_tcp_server
     EventMachine::start_server "localhost" , @tcp_port , TCPHandler do |connection|
-      connection.on :message         do |message| self.deliver_message message        end  
-      connection.on :command_message do |message| self.handle_command_message message end
+      connection.on :message         do |message| self.deliver_message connection.id , message end  
+      connection.on :command_message do |message| self.handle_command_message message          end
       
       connection = self.create_new_connection(connection)
       connection.send_tcp_object ClientId.new(connection.id)

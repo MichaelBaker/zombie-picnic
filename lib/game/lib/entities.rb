@@ -6,12 +6,13 @@ class Entities
   def_delegators :entities , :each , :map , :reduce , :filter , :inject , :any? , :empty?
   
   def initialize
-    @hash    = Hash.new
-    @next_id = 0
+    @entities = Hash.new
+    @players  = Hash.new
+    @next_id  = 0
   end
   
   def entities
-    @hash.values
+    @entities.values
   end
   
   def next_id
@@ -19,11 +20,20 @@ class Entities
   end
   
   def <<(entity)
-    @hash[entity.entity_id] = entity
+    @entities[entity.entity_id] = entity
+    @players[entity.client_id]  = entity if entity.respond_to?(:client_id)
   end
   
   def add_entity_from_server(message)
     entity_class = Object.const_get "Client#{message.type}"
     self << entity_class.from_attributes(message.attributes)
+  end
+  
+  def find_player_by_client_id(id)
+    @players[id]
+  end
+  
+  def players
+    @players.values
   end
 end

@@ -1,4 +1,4 @@
-class CreateEntity
+class CreateEntity < Message
   attr_reader :attributes , :type
   
   def initialize(entity)
