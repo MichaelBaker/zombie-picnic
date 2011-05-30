@@ -29,6 +29,7 @@ class GameServer
   
   def start_tcp_server
     EventMachine::start_server "localhost" , @tcp_port , TCPHandler do |connection|
+      puts Socket.unpack_sockaddr_in connection.get_peername
       connection.on :message         do |message| self.deliver_message connection.id , message end  
       connection.on :command_message do |message| self.handle_command_message message          end
       
