@@ -1,13 +1,19 @@
 require "yaml"
 
 class ServerWindow < Window
+  attr_reader :entities , :network
+  
   def initialize(network)
     super 200 , 100 , false
     
     @entities = Entities.new
+    @state    = ServerWaitingToStartState.new(self)
+    @network  = network
     
-    @network = network
-    
+    @network.on :message do |message|
+      self.state.handle_message message
+    end
+      
     @network.on :connect do |client_id|
       @network.send_tcp_message_to client_id , LoadMap.new(@map)
       
@@ -16,16 +22,12 @@ class ServerWindow < Window
       end
       
       new_player = BasePlayer.new(client_id , @entities.next_id , @map.next_starting_position)
+      @host      = new_player if @entities.empty?
       @entities << new_player
       
       @network.broadcast_tcp_message CreateEntity.new(new_player)
+      @network.send_tcp_message_to(client_id , RequestStart.new) if @host.client_id == client_id
     end
-    
-    @network.on :message do |message|   self.handle_message message   end
-  end
-  
-  def handle_message(message)
-    puts message
   end
   
   def draw

@@ -1,20 +1,19 @@
+TranslucentBlack = Color.rgba(0 , 0 , 0 , 100)
+
 class ClientWindow < Window
+  attr_accessor :entities , :network , :map , :message , :message_changed , :state
+  
   def initialize(network)
     super 1280 , 800 , false
     
-    @entities = Entities.new
+    @entities        = Entities.new
+    @state           = ClientWaitingToStartState.new(self)
+    @message         = "Waiting to start"
+    @message_image   = Image.from_text(self , @message , "Arial" , 32)
+    @message_changed = false
     
     @network = network
-    @network.on :message do |message| self.handle_message message end
-  end
-  
-  def handle_message(message)
-    case message
-    when LoadMap
-      @map = ClientMap.new(message.tiles , self)
-    when CreateEntity
-      @entities.add_entity_from_server message
-    end
+    @network.on :message do |message| self.state.handle_message message end
   end
   
   def draw
@@ -27,6 +26,14 @@ class ClientWindow < Window
         entity.image.draw entity.position[:x] * entity.image.width , entity.position[:y] * entity.image.height , 1
       end
     end
+    
+    if @message_changed
+      @message_changed = false
+      @message_image   = Image.from_text(self , @message , "Arial" , 32)
+    end
+    
+    draw_quad 0 , 0 , TranslucentBlack , 1280 , 0 , TranslucentBlack , 1280 , 52 , TranslucentBlack , 0 , 52 , TranslucentBlack , 50
+    @message_image.draw(10 , 10 , 100)
   end
   
   def update

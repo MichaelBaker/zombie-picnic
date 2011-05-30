@@ -3,7 +3,7 @@ require "forwardable"
 class Entities
   extend Forwardable
   
-  def_delegators :entities , :each , :map , :reduce , :filter , :inject
+  def_delegators :entities , :each , :map , :reduce , :filter , :inject , :any? , :empty?
   
   def initialize
     @hash    = Hash.new
