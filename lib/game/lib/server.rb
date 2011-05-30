@@ -16,25 +16,42 @@ class ServerWindow < Window
       
     @network.on :connect do |client_id|
       @network.send_tcp_message_to client_id , LoadMap.new(@map)
-      @entities.each {|entity| @network.send_tcp_message_to client_id , CreateEntity.new(entity)}
-      
-      new_player = BasePlayer.new(client_id , @entities.next_id , @map.next_starting_position)
-      @entities << new_player
-      
-      @network.broadcast_tcp_message CreateEntity.new(new_player)
-      @network.send_tcp_message_to client_id , RequestName.new
+      send_entities_to             client_id
+      create_player                client_id
+      broadcast_new_entity         @entities.players.last
       
       if @host
-        @network.send_tcp_message_to @host.client_id , NotReadyToStart.new(client_id)
+        notify_host_that_client_isnt_ready client_id
       else
-        @host = new_player
-        @host.ready = true
-        message = ReadyToStart.new
-        message.client_id = client_id
-        @network.send_tcp_message_to client_id , RequestStart.new
-        @network.send_tcp_message_to client_id , message
+        make_host @entities.players.last
       end
     end
+  end
+  
+  def make_host(player)
+    @host = player
+    @host.ready = true
+    @network.send_tcp_message_to player.client_id , RequestStart.new(client_id: player.client_id)
+    @network.send_tcp_message_to player.client_id , ReadyToStart.new(client_id: player.client_id)
+  end
+
+  def notify_host_that_client_isnt_ready(client_id)
+    @network.send_tcp_message_to @host.client_id , NotReadyToStart.new(client_id: client_id)
+  end
+  
+  def broadcast_new_entity(entity)
+    @network.broadcast_tcp_message CreateEntity.new(entity)
+  end
+  
+  def send_entities_to(client_id)
+    @entities.each do |entity|
+      @network.send_tcp_message_to client_id , CreateEntity.new(entity)
+    end
+  end
+  
+  def create_player(client_id)
+    @entities << BasePlayer.new(client_id , @entities.next_id , @map.next_starting_position)
+    @network.send_tcp_message_to client_id , RequestName.new
   end
   
   def draw

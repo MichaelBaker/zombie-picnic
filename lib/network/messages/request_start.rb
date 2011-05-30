@@ -1,3 +1,5 @@
 class RequestStart < Message
-  attr_accessor :client_id
+  def initialize(options = {})
+    super options
+  end
 end

@@ -1,5 +1,9 @@
 class Message
   attr_accessor :client_id
+  
+  def initialize(options)
+    @client_id = options[:client_id]
+  end
 end
 
 class CommandMessage < Message
@@ -9,13 +13,5 @@ end
 class ClientId < CommandMessage
   def initialize(id)
     @id = id
-  end
-end
-
-class UDPPort < CommandMessage
-  attr_accessor :port
-  
-  def initialize(id)
-    @id   = id
   end
 end
