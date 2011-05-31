@@ -3,7 +3,7 @@ require "forwardable"
 class Entities
   extend Forwardable
   
-  def_delegators :entities , :each , :map , :reduce , :filter , :inject , :any? , :empty?
+  def_delegators :entities , :each , :map , :reduce , :filter , :inject , :any? , :empty? , :size
   
   def initialize
     @entities = Hash.new
@@ -20,6 +20,10 @@ class Entities
   end
   
   def <<(entity)
+    if !entity.respond_to?(:entity_id) || entity.entity_id.nil?
+      raise ArgumentError.new("Entities must have an entity_id")
+    end
+    
     @entities[entity.entity_id] = entity
     @players[entity.client_id]  = entity if entity.respond_to?(:client_id)
   end
