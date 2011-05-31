@@ -22,6 +22,6 @@ class ShallotUI::ShallotLayer
   end
   
   def draw
-    @widgets.each {|widget| widget.draw}
+    @widgets.each {|widget| widget.draw(@z_index)}
   end
 end

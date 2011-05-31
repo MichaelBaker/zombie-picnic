@@ -35,7 +35,12 @@ class GameClient
   def start
     Thread.new do
       EventMachine::run do
+        begin
         self.start_tcp_socket
+      rescue Exception => e
+        puts e
+        puts e.backtrace
+      end
       end
     end
   end

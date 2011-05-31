@@ -8,12 +8,11 @@ class ClientWindow < Window
   def initialize(network , name)
     super 1280 , 800 , false
 
-    @name            = name
-    @entities        = Entities.new
-    @state           = ClientWaitingToStartState.new(self)
-    @message         = "Hey there! Hit ENTER when you're ready to start"
-    @message_image   = Image.from_text(self , @message , "Arial" , 32)
-    @message_changed = false
+    @name     = name
+    @entities = Entities.new
+    @state    = ClientWaitingToStartState.new(self)
+    
+    add_widget TextWidget.new("Hey there! Hit ENTER when you're ready to start")
     
     @network = network
     @network.on :message do |message| self.state.handle_message message end
@@ -35,13 +34,7 @@ class ClientWindow < Window
       end
     end
     
-    if @message_changed
-      @message_changed = false
-      @message_image   = Image.from_text(self , @message , "Arial" , 32)
-    end
-    
-    draw_quad 0 , 0 , TranslucentBlack , 1280 , 0 , TranslucentBlack , 1280 , 52 , TranslucentBlack , 0 , 52 , TranslucentBlack , 50
-    @message_image.draw(10 , 10 , 100)
+    draw_ui
   end
   
   def update
