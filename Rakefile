@@ -7,5 +7,5 @@ end
 
 desc "Run the test suite"
 task :test do
-  Dir.glob(File.dirname(__FILE__) + "/tests/*.rb").each { |filepath| system "ruby #{filepath}" }
+  Dir.glob(File.dirname(__FILE__) + "/tests/*.rb").shuffle.each { |filepath| system "ruby #{filepath}" }
 end
