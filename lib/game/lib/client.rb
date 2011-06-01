@@ -11,28 +11,14 @@ class ClientWindow < Window
     super 1280 , 800 , false
 
     @name      = name
-    @semaphore = Mutex.new
-    @messages  = Array.new
+    @messages  = MessageQueue.new
     @entities  = Entities.new
     @state     = ClientWaitingToStartState.new(self)
     
     add_widget TextWidget.new("Hey there! Hit ENTER when you're ready to start" , id: "status text")
     
     @network = network
-    @network.on :message do |message| self.queue_message message end
-  end
-  
-  def queue_message(message)
-    @semaphore.synchronize {
-      @messages << message
-    }
-  end
-  
-  def handle_messages
-    @semaphore.synchronize {
-      @messages.each {|message| self.state.handle_message message}
-      @messages.clear
-    }
+    @network.on :message do |message| @messages << message end
   end
   
   def draw
@@ -50,7 +36,7 @@ class ClientWindow < Window
   end
   
   def update
-    handle_messages
+    @messages.each {|message| @state.handle_message message}
   end
   
   def button_down(id)
