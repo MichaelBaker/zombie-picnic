@@ -22,7 +22,8 @@ end
 
 class ClientWaitingToStartState
   def initialize(game)
-    @game = game
+    @game   = game
+    @events = Array.new
   end
   
   def handle_message(message)
@@ -32,17 +33,17 @@ class ClientWaitingToStartState
     when CreateEntity
       @game.entities.add_entity_from_server message
     when RequestStart
-      @game.message = "Let's wait for the rabble to ready up"
+      @game.ui["status text"].text = "Let's wait for the rabble to ready up"
     when RequestName
       @game.network.send_tcp_message SetName.new(@game.name)
     when SetName
       @game.entities.find_player_by_client_id(message.client_id).name = message.name
     when ReadyToStart
       @game.entities.find_player_by_client_id(message.client_id).ready = true
-      @game.message = self.ready_message
+      @game.ui["status text"].text = self.ready_message
     when NotReadyToStart
       @game.entities.find_player_by_client_id(message.client_id).ready = false
-      @game.message = self.ready_message
+      @game.ui["status text"].text = self.ready_message
     else
       puts message
     end

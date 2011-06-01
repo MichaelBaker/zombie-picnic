@@ -1,14 +1,28 @@
 class ShallotUI::TextWidget < ShallotUI::Widget
+  attr_reader :text
+  
   def initialize(text , options = {})
     super options
-    @text = text
+    @text = text.to_s
   end
   
   def create_image(window)
-    @image = Image.from_text(window , @text , "Arial" , 24)
+    @window = window
+    render_text
   end
   
   def draw(z_index)
     @image && @image.draw(@x , @y , z_index)
+  end
+  
+  def text=(text)
+    @text = text.to_s
+    render_text
+  end
+  
+  private
+  
+  def render_text
+    @image = Image.from_text(@window , text , "Arial" , 24)
   end
 end

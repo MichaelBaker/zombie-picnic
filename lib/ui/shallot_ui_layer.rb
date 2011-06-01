@@ -1,15 +1,17 @@
 class ShallotUI::ShallotLayer
-  extend Forwardable
   include Comparable
   
-  attr_accessor  :widgets , :id , :z_index
-  def_delegators :@widgets , :remove
+  attr_accessor :id , :z_index
   
   def initialize(window , options)
     @window  = window
     @id      = options[:id]
     @z_index = options[:z_index]
-    @widgets = Array.new
+    @widgets = Hash.new
+  end
+  
+  def widgets
+    @widgets.values
   end
   
   def <=>(other)
@@ -17,11 +19,15 @@ class ShallotUI::ShallotLayer
   end
   
   def <<(widget)
-    widget.window = @window
-    @widgets << widget
+    widget.window       = @window
+    @widgets[widget.id] = widget
+  end
+  
+  def [](id)
+    @widgets[id]
   end
   
   def draw
-    @widgets.each {|widget| widget.draw(@z_index)}
+    widgets.each {|widget| widget.draw(@z_index)}
   end
 end

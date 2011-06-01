@@ -1,3 +1,5 @@
+require "thread"
+
 TranslucentBlack = Color.rgba(0 , 0 , 0 , 100)
 
 class ClientWindow < Window
@@ -8,19 +10,29 @@ class ClientWindow < Window
   def initialize(network , name)
     super 1280 , 800 , false
 
-    @name     = name
-    @entities = Entities.new
-    @state    = ClientWaitingToStartState.new(self)
+    @name      = name
+    @semaphore = Mutex.new
+    @messages  = Array.new
+    @entities  = Entities.new
+    @state     = ClientWaitingToStartState.new(self)
     
-    add_widget TextWidget.new("Hey there! Hit ENTER when you're ready to start")
+    add_widget TextWidget.new("Hey there! Hit ENTER when you're ready to start" , id: "status text")
     
     @network = network
-    @network.on :message do |message| self.state.handle_message message end
+    @network.on :message do |message| self.queue_message message end
   end
   
-  def message=(message)
-    @message         = message
-    @message_changed = true
+  def queue_message(message)
+    @semaphore.synchronize {
+      @messages << message
+    }
+  end
+  
+  def handle_messages
+    @semaphore.synchronize {
+      @messages.each {|message| self.state.handle_message message}
+      @messages.clear
+    }
   end
   
   def draw
@@ -33,11 +45,12 @@ class ClientWindow < Window
         entity.image.draw entity.position[:x] * entity.image.width , entity.position[:y] * entity.image.height , 1
       end
     end
-    
+      
     draw_ui
   end
   
   def update
+    handle_messages
   end
   
   def button_down(id)

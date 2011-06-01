@@ -3,7 +3,7 @@ class ShallotUI::ShallotUIClass
     @window = window
     @layers = Hash.new
     
-    add_layer z_index: 0 , id: :layer_0
+    add_layer z_index: 100 , id: :layer_0
   end
   
   def layers
@@ -16,8 +16,13 @@ class ShallotUI::ShallotUIClass
     @layers[options[:id].to_sym] = ShallotUI::ShallotLayer.new(@window , options)
   end
   
-  def [](layer_id)
-    @layers[layer_id.to_sym]
+  def [](id)
+    @layers[id.to_sym] || find_widget_by_id(id)
+  end
+  
+  def find_widget_by_id(id)
+    id = id.to_sym
+    layers.each {|layer| return layer[id] if layer[id]}
   end
   
   def add_widget(widget)

@@ -28,7 +28,7 @@ class GameServer
   end
   
   def start_tcp_server
-    EventMachine::start_server "0.0.0.0" , 8337 , TCPHandler do |connection|
+    EventMachine::start_server "0.0.0.0" , @tcp_port , TCPHandler do |connection|
       connection.on :message         do |message| self.deliver_message connection.id , message end  
       connection.on :command_message do |message| self.handle_command_message message          end
       

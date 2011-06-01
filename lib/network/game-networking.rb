@@ -1,4 +1,3 @@
-require "bundler/setup"
 require "eventmachine"
 
 require_relative "../callback/callback"
