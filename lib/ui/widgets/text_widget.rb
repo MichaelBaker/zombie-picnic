@@ -1,4 +1,4 @@
-class ShallotUI::TextWidget < ShallotUI::Widget
+class ShallotUI::Widgets::TextWidget < ShallotUI::Widgets::Widget
   attr_reader :text
   
   def initialize(text , options = {})

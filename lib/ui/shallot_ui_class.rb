@@ -1,9 +1,7 @@
 class ShallotUI::ShallotUIClass
   def initialize(window)
     @window = window
-    @layers = Hash.new
-    
-    add_layer z_index: 100 , id: :layer_0
+    clear
   end
   
   def layers
@@ -44,5 +42,10 @@ class ShallotUI::ShallotUIClass
   
   def next_layer_index
     layers.last.z_index + 1
+  end
+  
+  def clear
+    @layers = Hash.new
+    add_layer z_index: 100 , id: :layer_0
   end
 end

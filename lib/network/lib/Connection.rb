@@ -10,7 +10,6 @@ class Connection
   end
   
   def send_tcp_object(object)
-    puts object
     @tcp_connection.send_object object
   end
 end

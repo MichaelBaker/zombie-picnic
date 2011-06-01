@@ -1,4 +1,4 @@
-class ShallotUI::Widget
+class ShallotUI::Widgets::Widget
   attr_accessor :x , :y , :id
   
   def initialize(options)

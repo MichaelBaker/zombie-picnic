@@ -12,6 +12,13 @@ module ShallotUI
   def add_widget(widget)
     ui.add_widget widget
   end
+  
+  def clear_ui
+    ui.clear
+  end
+  
+  module Widgets
+  end
 end
 
 require_relative "./shallot_ui_layer"

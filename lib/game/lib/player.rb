@@ -7,7 +7,7 @@ class BasePlayer
     @entity_id = entity_id
     @position  = position
     @ready     = false
-    @name      = "Mr. Boner von Periwinkle"
+    @name      = "No one"
   end
   
   def ready?

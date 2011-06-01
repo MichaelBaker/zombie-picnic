@@ -15,10 +15,16 @@ class ClientWindow < Window
     @entities  = Entities.new
     @state     = ClientWaitingToStartState.new(self)
     
-    add_widget TextWidget.new("Hey there! Hit ENTER when you're ready to start" , id: "status text")
-    
     @network = network
     @network.on :message do |message| @messages << message end
+  end
+  
+  def host?
+    @host
+  end
+  
+  def host!
+    @host = true
   end
   
   def draw
