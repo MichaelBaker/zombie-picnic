@@ -19,13 +19,21 @@ module State
   end
   
   def handle_message(message)
-    before_handlers.each {|block| instance_exec message , &block}
+    @message = message
+    
+    before_handlers.each {|block| instance_exec &block}
     
     if [message.class]
-      instance_exec message , &message_handlers[message.class]
+      instance_exec &message_handlers[message.class]
     elsif default_handler
-      instance_exec message , &default_handler
+      instance_exec &default_handler
     end
+    
+    @message = nil
+  end
+  
+  def message
+    @message
   end
   
   module ClassMethods

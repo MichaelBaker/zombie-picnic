@@ -5,16 +5,16 @@ class ServerWaitingToStartState
     @game = game
   end
   
-  before do |message|
+  before do
     @player = @game.entities.find_player_by_client_id(message.client_id)
   end
   
-  handle SetName do |message|
+  handle SetName do
     @player.name = message.name
     @game.network.broadcast_tcp_message message
   end
   
-  handle ReadyToStart do |message|
+  handle ReadyToStart do
     if @player.host?
       @game.start_game if @game.entities.players.all? &:ready?
     else
@@ -23,7 +23,7 @@ class ServerWaitingToStartState
     end
   end
   
-  handle NotReadyToStart do |message|
+  handle NotReadyToStart do
     if @player.host?
       @game.start_game if @game.entities.players.all &:ready?
     else

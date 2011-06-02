@@ -7,50 +7,50 @@ class ClientWaitingToStartState
     @game.add_widget TextWidget.new("" , id: "status text")
   end
   
-  handle LoadMap do |message|
+  handle LoadMap do
     @game.ui["status text"].text = "Loading Map"
     @game.map = ClientMap.new(message.tiles , @game)
     @game.ui["status text"].text = "Map is ready" if @game.ui["status text"].text == "Loading Map"
   end
   
-  handle CreateEntity do |message|
+  handle CreateEntity do
     @game.entities.add_entity_from_server message
   end
   
-  handle RequestStart do |message|
+  handle RequestStart do
     @game.host!
     @game.ui["status text"].text = "Let's wait for the rabble to ready up"
   end
   
-  handle RequestName do |message|
+  handle RequestName do
     @game.network.send_tcp_message SetName.new(@game.name)
   end
   
-  handle SetName do |message|
+  handle SetName do
     @game.entities.find_player_by_client_id(message.client_id).name = message.name
     @game.ui["status text"].text = self.ready_message
   end
   
-  handle ReadyToStart do |message|
+  handle ReadyToStart do
     @game.entities.find_player_by_client_id(message.client_id).ready = true
     @game.ui["status text"].text = self.ready_message
   end
   
-  handle NotReadyToStart do |message|
+  handle NotReadyToStart do
     @game.entities.find_player_by_client_id(message.client_id).ready = false
     @game.ui["status text"].text = self.ready_message
   end
   
-  handle YourTurn do |message|
+  handle YourTurn do
     @game.change_state YourTurnState , @game
   end
   
-  handle StartPlayerTurn do |message|
+  handle StartPlayerTurn do
     player = @game.entities.find_player_by_client_id message.client_id
     @game.change_state ClientPlayerTurnState , @game , player
   end
   
-  default do |message|
+  default do
     puts message
   end
   
