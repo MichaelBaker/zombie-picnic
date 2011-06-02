@@ -7,8 +7,8 @@ class ClientWindow < Window
   
   attr_accessor :entities , :network , :map , :state , :name
   
-  def initialize(network , name)
-    super 1280 , 800 , false
+  def initialize(network , name , fullscreen = false)
+    super 1280 , 800 , fullscreen
 
     @name      = name
     @messages  = MessageQueue.new

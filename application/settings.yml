@@ -1,3 +1,4 @@
-:ip:   "localhost"
+:ip: localhost
 :port: 8337
 :name: Mr. Abeville von Periwinkle
+:fullscreen: false
