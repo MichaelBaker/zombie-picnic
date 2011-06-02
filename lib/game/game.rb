@@ -1,6 +1,7 @@
 require "gosu"
 include Gosu
 
+require_relative "./lib/state"
 Dir.glob(File.dirname(__FILE__) + "/lib/states/*.rb").each {|filename| require_relative filename}
 
 require_relative "../ui/ui"

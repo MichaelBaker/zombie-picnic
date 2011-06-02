@@ -1,4 +1,6 @@
 class ServerPlayerTurnState
+  include State
+  
   def initialize(game)
     @game = game
   end
@@ -12,10 +14,6 @@ class ClientPlayerTurnState
     @game = game
     
     @game.add_widget TextWidget.new("It's #{player.name}'s turn!" , id: "status text")
-  end
-  
-  def handle_message(message)
-    
   end
   
   def button_down(id)

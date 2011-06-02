@@ -34,16 +34,23 @@ class ClientWindow < Window
   
   def draw
     if @map
-      @map.tiles.each do |tile|
-        tile.image.draw tile.x * tile.image.width , tile.y * tile.image.height , 1
-      end
-      
-      @entities.each do |entity|
-        entity.image.draw entity.position[:x] * entity.image.width , entity.position[:y] * entity.image.height , 1
-      end
+      draw_map
+      draw_entities
     end
       
     draw_ui
+  end
+  
+  def draw_entities
+    @entities.each do |entity|
+      entity.image.draw entity.position[:x] * entity.image.width , entity.position[:y] * entity.image.height , 1
+    end
+  end
+  
+  def draw_map
+    @map.tiles.each do |tile|
+      tile.image.draw tile.x * tile.image.width , tile.y * tile.image.height , 1
+    end
   end
   
   def update
