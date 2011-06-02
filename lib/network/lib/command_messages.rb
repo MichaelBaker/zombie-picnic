@@ -1,7 +1,7 @@
 class Message
   attr_accessor :client_id
   
-  def initialize(options)
+  def initialize(options = {})
     @client_id = options[:client_id]
   end
 end

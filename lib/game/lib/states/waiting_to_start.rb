@@ -11,11 +11,19 @@ class ServerWaitingToStartState
       player.name = message.name
       @game.network.broadcast_tcp_message message
     when ReadyToStart
-      player.ready = true
-      @game.network.broadcast_tcp_message message
+      if player.host?
+        @game.start_game if @game.entities.players.all? &:ready?
+      else
+        player.ready = true
+        @game.network.broadcast_tcp_message message
+      end
     when NotReadyToStart
-      player.ready = false
-      @game.network.broadcast_tcp_message message
+      if player.host?
+        @game.start_game if @game.entities.players.all &:ready?
+      else
+        player.ready = false
+        @game.network.broadcast_tcp_message message
+      end
     end
   end
   
@@ -27,7 +35,7 @@ class ClientWaitingToStartState
   def initialize(game)
     @game   = game
     
-    @game.add_widget TextWidget.new("Hey there! Hit ENTER when you're ready to start" , id: "status text")
+    @game.add_widget TextWidget.new("" , id: "status text")
     
     @ready  = false
     @events = Array.new
@@ -55,6 +63,11 @@ class ClientWaitingToStartState
     when NotReadyToStart
       @game.entities.find_player_by_client_id(message.client_id).ready = false
       @game.ui["status text"].text = self.ready_message
+    when YourTurn
+      @game.change_state YourTurnState , @game
+    when StartPlayerTurn
+      player      = @game.entities.find_player_by_client_id message.client_id
+      @game.change_state ClientPlayerTurnState , @game , player
     else
       puts message
     end

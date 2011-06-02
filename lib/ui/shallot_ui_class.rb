@@ -31,7 +31,12 @@ class ShallotUI::ShallotUIClass
     layers.each {|layer| layer.draw}
   end
   
-  private
+  def clear
+    @layers = Hash.new
+    add_layer z_index: 100 , id: :layer_0
+  end
+  
+private
   
   def merge_layer_options!(options)
     index = options[:z_index] || next_layer_index
@@ -42,10 +47,5 @@ class ShallotUI::ShallotUIClass
   
   def next_layer_index
     layers.last.z_index + 1
-  end
-  
-  def clear
-    @layers = Hash.new
-    add_layer z_index: 100 , id: :layer_0
   end
 end

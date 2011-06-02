@@ -12,7 +12,7 @@ class ShallotUI::Widgets::TextWidget < ShallotUI::Widgets::Widget
   end
   
   def draw(z_index)
-    @image && @image.draw(@x , @y , z_index)
+    @image.draw(@x , @y , z_index) if @image
   end
   
   def text=(text)

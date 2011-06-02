@@ -19,6 +19,11 @@ class ClientWindow < Window
     @network.on :message do |message| @messages << message end
   end
   
+  def change_state(state_class , *args)
+    clear_ui
+    @state = state_class.new(*args)
+  end
+  
   def host?
     @host
   end

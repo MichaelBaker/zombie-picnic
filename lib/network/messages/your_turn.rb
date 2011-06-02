@@ -1,0 +1,2 @@
+class YourTurn < Message
+end

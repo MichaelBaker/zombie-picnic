@@ -50,6 +50,12 @@ class GameServer
     @connections[client_id].send_tcp_object object
   end
   
+  def send_tcp_message_to_all_except(client_id , object)
+    @connections.each_pair do |id , connection|
+      connection.send_tcp_object(object) unless id == client_id
+    end
+  end
+  
   def stop
     @thread.exit
   end

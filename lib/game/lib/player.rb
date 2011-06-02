@@ -1,5 +1,5 @@
 class BasePlayer
-  attr_accessor :position , :name , :ready
+  attr_accessor :position , :name , :ready , :host
   attr_reader   :client_id , :entity_id
   
   def initialize(client_id , entity_id , position)
@@ -8,6 +8,10 @@ class BasePlayer
     @position  = position
     @ready     = false
     @name      = "No one"
+  end
+  
+  def host?
+    host
   end
   
   def ready?
