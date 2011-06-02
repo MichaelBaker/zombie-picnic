@@ -5,7 +5,7 @@ TranslucentBlack = Color.rgba(0 , 0 , 0 , 100)
 class ClientWindow < Window
   include ShallotUI
   
-  attr_accessor :entities , :network , :map , :message , :message_changed , :state , :name
+  attr_accessor :entities , :network , :map , :state , :name
   
   def initialize(network , name)
     super 1280 , 800 , false

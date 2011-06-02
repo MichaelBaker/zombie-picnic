@@ -3,9 +3,8 @@ class ServerWaitingToStartState
     @game = game
   end
   
-  def handle_message(client_id , message)
-    player            = @game.entities.find_player_by_client_id(client_id)
-    message.client_id = client_id
+  def handle_message(message)
+    player = @game.entities.find_player_by_client_id(message.client_id)
     
     case message
     when SetName

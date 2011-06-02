@@ -9,9 +9,11 @@ class ServerWindow < Window
     @entities = Entities.new
     @state    = ServerWaitingToStartState.new(self)
     @network  = network
+    @messages = MessageQueue.new
     
     @network.on :message do |client_id , message|
-      @state.handle_message client_id , message
+      message.client_id = client_id
+      @messages << message
     end
       
     @network.on :connect do |client_id|
@@ -58,6 +60,7 @@ class ServerWindow < Window
   end
   
   def update
+    @messages.each {|message| @state.handle_message message}
   end
   
   def button_down(id)
