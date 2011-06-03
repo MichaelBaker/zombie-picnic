@@ -1,4 +1,3 @@
-require "minitest/autorun"
 require_relative "../lib/callback/callback"
 
 describe Callback do

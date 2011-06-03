@@ -1,4 +1,3 @@
-require "minitest/autorun"
 require_relative "../lib/game/lib/entities"
 
 describe Entities do

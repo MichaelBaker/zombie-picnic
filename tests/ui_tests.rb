@@ -1,4 +1,3 @@
-require "minitest/autorun"
 require "gosu"
 require_relative "../lib/ui/ui"
 
@@ -9,7 +8,7 @@ describe ShallotUI do
     end
     
     @window = TestMock.new
-    @widget = ShallotUI::Widget.new @window
+    @widget = ShallotUI::Widgets::Widget.new
   end
   
   it "should be drawable from within the window" do
@@ -27,10 +26,10 @@ describe ShallotUI do
   
   it "should add layers to the next highest z_index if none is provided" do
     @window.ui.add_layer id: "test"
-    assert_equal 1 , @window.ui[:test].z_index
+    assert_equal 101 , @window.ui[:test].z_index
     
     @window.ui.add_layer id: "test2"
-    assert_equal 2 , @window.ui[:test2].z_index
+    assert_equal 102 , @window.ui[:test2].z_index
   end
   
   it "should make its layers accessable via their id" do

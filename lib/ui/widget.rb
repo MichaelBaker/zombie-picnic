@@ -1,7 +1,7 @@
 class ShallotUI::Widgets::Widget
   attr_accessor :x , :y , :id
   
-  def initialize(options)
+  def initialize(options = {})
     merge_default_options! options
     
     @x  = options[:x]

@@ -23,13 +23,14 @@ module State
     
     before_handlers.each {|block| instance_exec &block}
     
-    if [message.class]
-      instance_exec &message_handlers[message.class]
+    if message_handlers[message.class]
+      result = instance_exec &message_handlers[message.class]
     elsif default_handler
-      instance_exec &default_handler
+      result = instance_exec &default_handler
     end
-    
+  ensure
     @message = nil
+    result
   end
   
   def message

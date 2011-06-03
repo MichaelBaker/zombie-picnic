@@ -7,5 +7,8 @@ end
 
 desc "Run the test suite"
 task :test do
-  Dir.glob(File.dirname(__FILE__) + "/tests/*.rb").shuffle.each { |filepath| system "ruby #{filepath}" }
+  require "minitest/autorun"
+  Dir.glob(File.dirname(__FILE__) + "/tests/*.rb").shuffle.each do |filepath|
+    system %Q(ruby -r "minitest/autorun" #{filepath})
+  end
 end
