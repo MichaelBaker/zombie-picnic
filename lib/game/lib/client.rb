@@ -4,7 +4,7 @@ class ClientWindow < Window
   include Renderer
   include ShallotUI
   
-  attr_accessor :entities , :network , :map , :state , :name
+  attr_accessor :entities , :network , :map , :state , :name , :my_client_id
   
   def initialize(network , name , fullscreen = false)
     super 1280 , 800 , fullscreen
@@ -21,6 +21,10 @@ class ClientWindow < Window
   def change_state(state_class , *args)
     clear_ui
     @state = state_class.new(*args)
+  end
+  
+  def current_player_client_id
+    @state.player.client_id if @state.respond_to?(:player)
   end
   
   def host?

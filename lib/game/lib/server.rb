@@ -19,6 +19,7 @@ class ServerWindow < Window
     @network.on :connect do |client_id|
       return unless @state.instance_of?(ServerWaitingToStartState)
       
+      @network.send_tcp_message_to client_id , YourId.new(client_id: client_id)
       @network.send_tcp_message_to client_id , LoadMap.new(@map)
       send_entities_to             client_id
       create_player                client_id
@@ -87,7 +88,8 @@ class ServerWindow < Window
   
   def start_game
     initialize_turn_order
-    change_state ServerPlayerTurnState , self
+    
+    change_state ServerPlayerTurnState , self , current_player
     
     @network.send_tcp_message_to            current_turn_client_id , YourTurn.new(client_id: current_turn_client_id)
     @network.send_tcp_message_to_all_except current_turn_client_id , StartPlayerTurn.new(client_id: current_turn_client_id)
@@ -102,7 +104,16 @@ class ServerWindow < Window
     @turn       = 0
   end
   
+  def current_player
+    @entities.find_player_by_client_id current_turn_client_id
+  end
+  
   def advance_turn
     @turn = (@turn + 1) % @turn_order.size
+    
+    change_state ServerPlayerTurnState , @game , current_player
+    
+    @network.send_tcp_message_to            current_turn_client_id , YourTurn.new(client_id: current_turn_client_id)
+    @network.send_tcp_message_to_all_except current_turn_client_id , StartPlayerTurn.new(client_id: current_turn_client_id)
   end
 end

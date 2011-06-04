@@ -51,6 +51,10 @@ class ClientWaitingToStartState
     @game.change_state ClientPlayerTurnState , @game , player
   end
   
+  handle YourId do
+    @game.my_client_id = message.client_id
+  end
+  
   default do
     puts message
   end
