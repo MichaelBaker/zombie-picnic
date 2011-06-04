@@ -36,9 +36,16 @@ class ClientWindow < Window
     if @map
       draw_map
       draw_entities
+      draw_tile_highlight
     end
       
     draw_ui
+  end
+  
+  def draw_tile_highlight
+    x = mouse_x - (mouse_x % 50)
+    y = mouse_y - (mouse_y % 50)
+    Images[:tile_highlight].draw x , y , 50
   end
   
   def draw_entities
