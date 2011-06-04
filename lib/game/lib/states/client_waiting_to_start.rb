@@ -42,7 +42,8 @@ class ClientWaitingToStartState
   end
   
   handle YourTurn do
-    @game.change_state YourTurnState , @game
+    player = @game.entities.find_player_by_client_id message.client_id
+    @game.change_state YourTurnState , @game , player
   end
   
   handle StartPlayerTurn do

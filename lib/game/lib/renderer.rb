@@ -2,8 +2,8 @@ module Renderer
   def draw
     if @map
       draw_map
-      draw_entities
       draw_tile_highlights
+      draw_entities
     end
       
     draw_ui
@@ -12,7 +12,16 @@ module Renderer
 private
 
   def draw_tile_highlights
+    draw_movment_highlights
     draw_selected_tile_highlight
+  end
+  
+  def draw_movment_highlights
+    @entities.players.each do |player|      
+      @map.tiles_in_range(player.position , player.speed).each do |tile|
+        Images[:walk_highlight].draw tile.x * 50 , tile.y * 50 , 1 if tile
+      end
+    end
   end
   
   def draw_selected_tile_highlight

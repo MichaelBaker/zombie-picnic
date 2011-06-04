@@ -17,9 +17,26 @@ class BaseMap
     @start_x = -1
     @start_y = 0
     
-    @tiles = tiles.map do |info|
-      BaseMapTile.new info[:x] , info[:y] , info[:type]
+    @tiles = tiles.inject Hash.new do |hash , info|
+      hash[{x:info[:x] , y:info[:y]}] = BaseMapTile.new(info[:x] , info[:y] , info[:type])
+      hash
     end
+  end
+  
+  def tiles
+    @tiles.values
+  end
+  
+  def tiles_in_range(position , distance)
+    distances = ((-distance + 1)...distance).to_a
+    
+    vectors = distances.product(distances).select do |vector|
+      (vector[0].abs + vector[1].abs) < distance
+    end
+    
+    vectors.map do |vector|
+      @tiles[{x: position[:x] + vector[0] , y: position[:y] + vector[1]}]
+    end.uniq
   end
   
   def next_starting_position
@@ -36,12 +53,11 @@ class ClientMapTile < BaseMapTile
   end
 end
 
-class ClientMap
-  attr_reader :tiles
-  
+class ClientMap < BaseMap
   def initialize(tiles , suface)
-    @tiles = tiles.map do |info|
-      ClientMapTile.new info[:x] , info[:y] , info[:type]
+    @tiles = tiles.inject Hash.new do |hash , info|
+      hash[{x: info[:x] , y: info[:y]}] = ClientMapTile.new(info[:x] , info[:y] , info[:type])
+      hash
     end
   end
 end

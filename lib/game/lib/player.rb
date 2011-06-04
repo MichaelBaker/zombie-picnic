@@ -8,7 +8,7 @@ class BasePlayer
     @position  = position
     @ready     = false
     @name      = "No one"
-    @speed     = 5
+    @speed     = 3
   end
   
   def host?

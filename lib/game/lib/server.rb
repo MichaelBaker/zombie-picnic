@@ -89,7 +89,7 @@ class ServerWindow < Window
     initialize_turn_order
     change_state ServerPlayerTurnState , self
     
-    @network.send_tcp_message_to            current_turn_client_id , YourTurn.new
+    @network.send_tcp_message_to            current_turn_client_id , YourTurn.new(client_id: current_turn_client_id)
     @network.send_tcp_message_to_all_except current_turn_client_id , StartPlayerTurn.new(client_id: current_turn_client_id)
   end
   
