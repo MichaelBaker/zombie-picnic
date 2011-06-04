@@ -19,10 +19,12 @@ private
   def draw_movment_highlights
     @entities.players.each do |player|      
       @map.tiles_in_range(player.position , player.speed).each do |tile|
+        next if tile.nil? || (player.x == tile.x && player.y == tile.y)
+        
         if player.client_id == current_player_client_id
-          Images[:walk_highlight].draw tile.x * 50 , tile.y * 50 , 1 if tile
+          Images[:walk_highlight].draw tile.x * 50 , tile.y * 50 , 1
         else
-          Images[:other_player_walk_highlight].draw tile.x * 50 , tile.y * 50 , 1 if tile
+          Images[:other_player_walk_highlight].draw tile.x * 50 , tile.y * 50 , 1
         end
       end
     end
