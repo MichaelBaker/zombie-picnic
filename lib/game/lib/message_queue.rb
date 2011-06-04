@@ -1,3 +1,5 @@
+require "thread"
+
 class MessageQueue
   def initialize
     @semaphore = Mutex.new
