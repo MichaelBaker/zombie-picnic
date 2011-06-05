@@ -1,5 +1,5 @@
 class BaseWaterTile < MapTile
-  def initialize(x , y)
+  def initialize(position)
     super
     @type           = :water
     @speed_modifier = 1
@@ -7,7 +7,7 @@ class BaseWaterTile < MapTile
 end
 
 class ClientWaterTile < BaseGrassTile
-  def initialize(x , y)
+  def initialize(position)
     super
     @image = Images[:water]
   end

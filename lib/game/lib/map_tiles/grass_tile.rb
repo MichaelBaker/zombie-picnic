@@ -1,5 +1,5 @@
 class BaseGrassTile < MapTile
-  def initialize(x , y)
+  def initialize(position)
     super
     @type           = :grass
     @speed_modifier = 1
@@ -7,7 +7,7 @@ class BaseGrassTile < MapTile
 end
 
 class ClientGrassTile < BaseGrassTile
-  def initialize(x , y)
+  def initialize(position)
     super
     @image = Images[:grass]
   end

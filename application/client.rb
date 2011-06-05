@@ -2,6 +2,8 @@
 
 require "yaml"
 
+Dir.glob(File.dirname(__FILE__) + "/../lib/utilities/*.rb").each {|path| require_relative path}
+
 require_relative "../lib/network/game-networking"
 require_relative "../lib/game/game"
 require_relative "../lib/game/lib/images"

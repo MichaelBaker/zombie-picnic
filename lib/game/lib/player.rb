@@ -11,14 +11,6 @@ class BasePlayer
     @speed     = 4
   end
   
-  def x
-    @position[:x]
-  end
-  
-  def y
-    @position[:y]
-  end
-  
   def host?
     host
   end
@@ -30,7 +22,7 @@ class BasePlayer
   def attributes
     { client_id: @client_id,
       entity_id: @entity_id,
-      position:  position,
+      position:  {x: position.x , y: position.y},
       ready:     @ready,
       name:      @name,
       speed:     @speed }
@@ -41,7 +33,10 @@ class ClientPlayer < BasePlayer
   attr_reader :image
   
   def initialize(attributes)
-    super(attributes[:client_id] , attributes[:entity_id] , attributes[:position])
+    position = Vector.new attributes[:position][:x] , attributes[:position][:y]
+    
+    super(attributes[:client_id] , attributes[:entity_id] , position)
+    
     @ready = attributes[:ready]
     @image = Images[:player]
     @name  = attributes[:name]

@@ -1,13 +1,8 @@
 class MapTile
-  attr_reader :x , :y , :type , :image
+  attr_reader :type , :image , :position
   
-  def initialize(x , y)
-    @x = x
-    @y = y
-  end
-  
-  def position
-    {x: @x , y: @y}
+  def initialize(position)
+    @position = position
   end
 end
 
@@ -22,7 +17,9 @@ class BaseMap
     
     @tiles = tiles.inject Hash.new do |hash , info|
       tile_class = Kernel.const_get "Base#{info[:type].capitalize}Tile"
-      hash[{x: info[:x] , y: info[:y]}] = tile_class.new(info[:x] , info[:y])
+      position   = Vector.new info[:x] , info[:y]
+      
+      hash[{x: position.x , y: position.y}] = tile_class.new(position)
       hash
     end
   end
@@ -39,12 +36,12 @@ class BaseMap
     end
     
     vectors.map do |vector|
-      @tiles[{x: position[:x] + vector[0] , y: position[:y] + vector[1]}]
+      @tiles[{x: position.x + vector[0] , y: position.y + vector[1]}]
     end.uniq
   end
   
   def next_starting_position
-    {x: @start_x += 1 , y: @start_y}
+    Vector.new @start_x += 1 , @start_y
   end
 end
 
@@ -52,7 +49,9 @@ class ClientMap < BaseMap
   def initialize(tiles , suface)
     @tiles = tiles.inject Hash.new do |hash , info|
       tile_class = Kernel.const_get "Client#{info[:type].capitalize}Tile"
-      hash[{x: info[:x] , y: info[:y]}] = tile_class.new(info[:x] , info[:y])
+      position   = Vector.new info[:x] , info[:y]
+      
+      hash[{x: position.x , y: position.y}] = tile_class.new(position)
       hash
     end
   end
