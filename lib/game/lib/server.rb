@@ -1,7 +1,7 @@
 require "yaml"
 
 class ServerWindow < Window
-  attr_reader :entities , :network , :host
+  attr_reader :entities , :network , :host , :map
   
   def initialize(network)
     super 200 , 100 , false
@@ -111,7 +111,7 @@ class ServerWindow < Window
   def advance_turn
     @turn = (@turn + 1) % @turn_order.size
     
-    change_state ServerPlayerTurnState , @game , current_player
+    change_state ServerPlayerTurnState , self , current_player
     
     @network.send_tcp_message_to            current_turn_client_id , YourTurn.new(client_id: current_turn_client_id)
     @network.send_tcp_message_to_all_except current_turn_client_id , StartPlayerTurn.new(client_id: current_turn_client_id)

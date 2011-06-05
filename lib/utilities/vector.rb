@@ -7,11 +7,11 @@ class Vector
   end
   
   def up(distance = 1)
-    self.class.new(@x , @y + distance)
+    self.class.new(@x , @y - distance)
   end
   
   def down(distance = 1)
-    self.class.new(@x , @y - distance)
+    self.class.new(@x , @y + distance)
   end
   
   def left(distance = 1)

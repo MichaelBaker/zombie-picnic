@@ -1,14 +1,24 @@
 class BasePlayer
-  attr_accessor :position , :name , :ready , :host , :speed
+  attr_accessor :position , :name , :ready , :host , :speed , :movement_points
   attr_reader   :client_id , :entity_id
   
   def initialize(client_id , entity_id , position)
-    @client_id = client_id
-    @entity_id = entity_id
-    @position  = position
-    @ready     = false
-    @name      = "No one"
-    @speed     = 5
+    @client_id  = client_id
+    @entity_id  = entity_id
+    @position   = position
+    @ready      = false
+    @name       = "No one"
+    @speed      = 5
+    
+    reset_movement_points
+  end
+  
+  def movement_points_full?
+    @movement_points == @speed
+  end
+  
+  def reset_movement_points
+    @movement_points = @speed
   end
   
   def host?
@@ -26,6 +36,26 @@ class BasePlayer
       ready:     @ready,
       name:      @name,
       speed:     @speed }
+  end
+  
+  def move_down(tile)
+    self.position = self.position.down
+    self.movement_points -= tile.speed_modifier
+  end
+  
+  def move_up(tile)
+    self.position = self.position.up
+    self.movement_points -= tile.speed_modifier
+  end
+  
+  def move_left(tile)
+    self.position = self.position.left
+    self.movement_points -= tile.speed_modifier
+  end
+  
+  def move_right(tile)
+    self.position = self.position.right
+    self.movement_points -= tile.speed_modifier
   end
 end
 

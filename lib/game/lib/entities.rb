@@ -19,6 +19,10 @@ class Entities
     @entities.values
   end
   
+  def [](entity_id)
+    @entities[entity_id]
+  end
+  
   def next_id
     @next_id += 1
   end

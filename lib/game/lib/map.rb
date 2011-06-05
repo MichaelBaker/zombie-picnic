@@ -45,14 +45,14 @@ class BaseMap
   end
   
   def reachable_tiles(entity)
-    tiles_reachable_from entity.position , entity.speed
+    tiles_reachable_from entity.position , entity.movement_points
   end
-
-private
 
   def tile_at(position)
     @tiles[{x: position.x , y: position.y}]
   end
+  
+private
   
   def adjacent_tiles(tile)
     tiles = [tile.position.up , tile.position.down , tile.position.right , tile.position.left].map do |new_position|
@@ -66,13 +66,13 @@ private
     starting_tile = tile_at position
     return [] if starting_tile.nil? || speed - starting_tile.speed_modifier < 1
     
-    adjacent_tiles(starting_tile).map do |tile|
-      if !@game.entities.entity_at?(tile.position)
-        tiles_reachable_from tile.position , speed - starting_tile.speed_modifier
-      else
-        []
-      end
-    end.concat(adjacent_tiles(starting_tile)).flatten.uniq
+    adjacent_tiles = adjacent_tiles(starting_tile).select do |tile|
+      !@game.entities.entity_at?(tile.position)
+    end
+    
+    adjacent_tiles.map do |tile|
+      tiles_reachable_from tile.position , speed - starting_tile.speed_modifier
+    end.concat(adjacent_tiles).flatten.uniq
   end
 end
 

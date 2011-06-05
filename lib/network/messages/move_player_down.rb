@@ -1,0 +1,2 @@
+class MovePlayerDown < Message
+end

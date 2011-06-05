@@ -36,7 +36,15 @@ class ClientWindow < Window
   end
   
   def update
-    @messages.each {|message| @state.handle_message message}
+    @messages.each do |message|
+      case message
+      when UpdateEntityAttribute
+        entity = @entities[message.entity_id]
+        entity.send "#{message.attribute}=" , message.value if entity
+      else
+        @state.handle_message message
+      end
+    end
   end
   
   def button_down(id)

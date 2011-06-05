@@ -1,0 +1,2 @@
+class MovePlayerLeft < Message
+end
