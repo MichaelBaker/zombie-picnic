@@ -4,9 +4,9 @@ class ShallotUI::Widgets::Widget
   def initialize(options = {})
     merge_default_options! options
     
-    @x  = options[:x]
-    @y  = options[:y]
-    @id = options[:id].to_sym
+    @x          = options[:x]
+    @y          = options[:y]
+    @id         = options[:id].to_sym
   end
   
   def merge_default_options!(options)

@@ -4,7 +4,7 @@ class ClientWaitingToStartState
   def initialize(game)
     @game  = game
     @ready = false
-    @game.add_widget TextWidget.new("" , id: "status text")
+    @game.add_widget TextWidget.new("" , id: "status text" , background: [0.5 , 0.5 , 0.5 , 0.7])
   end
   
   handle LoadMap do
