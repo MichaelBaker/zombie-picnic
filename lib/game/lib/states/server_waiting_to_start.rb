@@ -31,7 +31,4 @@ class ServerWaitingToStartState
       @game.network.broadcast_tcp_message message
     end
   end
-  
-  def button_down(id)
-  end
 end

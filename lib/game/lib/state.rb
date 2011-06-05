@@ -1,4 +1,13 @@
 module State
+  def button_up(button_id)
+  end
+  
+  def button_down(button_id)
+  end
+  
+  def mouse_click(button_id , x , y)  
+  end
+  
   def self.included(base_class)
     base_class.class_variable_set "@@_message_handlers" , Hash.new
     base_class.class_variable_set "@@_before_handlers"  , Array.new

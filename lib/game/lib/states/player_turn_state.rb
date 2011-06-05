@@ -12,9 +12,6 @@ class ServerPlayerTurnState
       @game.change_state ServerPlayerTurnState , @game , @game.current_player
     end
   end
-  
-  def button_down(id)
-  end
 end
 
 class ClientPlayerTurnState
@@ -26,9 +23,6 @@ class ClientPlayerTurnState
     @game   = game
     @player = player
     @game.add_widget TextWidget.new("It's #{player.name}'s turn!" , id: "status text")
-  end
-  
-  def button_down(id)
   end
   
   handle YourTurn do
