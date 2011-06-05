@@ -17,14 +17,14 @@ private
   
   def draw_movment_highlights
     @entities.players.each do |player|      
-      @map.tiles_in_range(player.position , player.speed).each do |tile|
-        next if tile.nil? || (player.position.x == tile.position.x && player.position.y == tile.position.y)
-        
+      @map.reachable_tiles(player).each do |tile|
         if player.client_id == current_player_client_id
-          Images[:walk_highlight].draw tile.position.x * 50 , tile.position.y * 50 , 1
+          highlighter = :walk_highlight
         else
-          Images[:other_player_walk_highlight].draw tile.position.x * 50 , tile.position.y * 50 , 1
+          highlighter = :other_player_walk_highlight
         end
+        
+        Images[highlighter].draw tile.position.x * 50 , tile.position.y * 50 , 1
       end
     end
   end

@@ -21,4 +21,8 @@ class Vector
   def right(distance = 1)
     self.class.new(@x + distance , @y)
   end
+  
+  def ==(other)
+    @x == other.x && @y == other.y
+  end
 end

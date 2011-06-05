@@ -11,6 +11,10 @@ class Entities
     @next_id    = 0
   end
   
+  def entity_at?(position)
+    @entities.values.any? do |entity| entity.position == position end
+  end
+  
   def entities
     @entities.values
   end
