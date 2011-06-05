@@ -13,7 +13,6 @@ private
 
   def draw_tile_highlights
     draw_movment_highlights
-    draw_selected_tile_highlight
   end
   
   def draw_movment_highlights
