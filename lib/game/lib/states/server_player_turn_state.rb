@@ -11,6 +11,25 @@ class ServerPlayerTurnState
     end
   end
   
+  def update_player
+    @game.network.broadcast_tcp_message UpdateEntityAttribute.new(@player , :position)
+    @game.network.broadcast_tcp_message UpdateEntityAttribute.new(@player , :movement_points)
+  end
+  
+  def can_move_to?(player , tile)
+    tile && @game.map.reachable_tiles(@player).include?(tile)
+  end
+  
+  def move_player(direction)
+    starting_tile    = @game.map.tile_at @player.position
+    destination_tile = @game.map.tile_at @player.position.send direction
+    
+    if can_move_to? @player , destination_tile
+      @player.send "move_#{direction}" , starting_tile
+      update_player
+    end
+  end
+  
   verify do
     message.client_id == @game.current_turn_client_id
   end
@@ -20,51 +39,18 @@ class ServerPlayerTurnState
   end
   
   handle MovePlayerDown do
-    starting_tile    = @game.map.tile_at @player.position
-    destination_tile = @game.map.tile_at @player.position.down
-    
-    if can_move_to? @player , destination_tile
-      @player.move_down starting_tile
-      update_player
-    end
+    move_player :down
   end
   
   handle MovePlayerUp do
-    starting_tile    = @game.map.tile_at @player.position
-    destination_tile = @game.map.tile_at @player.position.up
-    
-    if can_move_to? @player , destination_tile
-      @player.move_up starting_tile
-      update_player
-    end
+    move_player :up
   end
   
   handle MovePlayerLeft do
-    starting_tile    = @game.map.tile_at @player.position
-    destination_tile = @game.map.tile_at @player.position.left
-    
-    if can_move_to? @player , destination_tile
-      @player.move_left starting_tile
-      update_player
-    end
+    move_player :left
   end
   
   handle MovePlayerRight do
-    starting_tile    = @game.map.tile_at @player.position
-    destination_tile = @game.map.tile_at @player.position.right
-    
-    if can_move_to? @player , destination_tile
-      @player.move_right starting_tile
-      update_player
-    end
-  end
-  
-  def update_player
-    @game.network.broadcast_tcp_message UpdateEntityAttribute.new(@player , :position)
-    @game.network.broadcast_tcp_message UpdateEntityAttribute.new(@player , :movement_points)
-  end
-  
-  def can_move_to?(player , tile)
-    tile && @game.map.reachable_tiles(@player).include?(tile)
+    move_player :right
   end
 end
