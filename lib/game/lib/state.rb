@@ -10,6 +10,7 @@ module State
   
   def self.included(base_class)
     base_class.class_variable_set "@@_message_handlers" , Hash.new
+    base_class.class_variable_set "@@_verify_handlers"  , Hash.new {|hash , key| hash[key] = Array.new}
     base_class.class_variable_set "@@_before_handlers"  , Array.new
     base_class.class_variable_set "@@_default_handler"  , nil
     base_class.extend ClassMethods
@@ -27,9 +28,14 @@ module State
     self.class.class_variable_get "@@_default_handler"
   end
   
+  def verify_handlers
+    self.class.class_variable_get("@@_verify_handlers")[:all]
+  end
+  
   def handle_message(message)
     @message = message
     
+    verify_handlers.each {|block| return unless instance_exec &block}
     before_handlers.each {|block| instance_exec &block}
     
     if message_handlers[message.class]
@@ -37,13 +43,18 @@ module State
     elsif default_handler
       result = instance_exec &default_handler
     end
+    
+    result
   ensure
     @message = nil
-    result
   end
   
   def message
     @message
+  end
+  
+  def ignore_message
+    @ignore_message = true
   end
   
   module ClassMethods
@@ -53,6 +64,10 @@ module State
     
     def before_handlers
       self.class_variable_get "@@_before_handlers"
+    end
+    
+    def verify_handlers
+      self.class_variable_get "@@_verify_handlers"
     end
     
     def handle(message_class , &block)
@@ -65,6 +80,10 @@ module State
 
     def default(&block)
       self.class_variable_set "@@_default_handler" , block
+    end
+    
+    def verify(options = {} , &block)
+      verify_handlers[:all] << block
     end
   end
 end
