@@ -8,10 +8,10 @@ require_relative "../lib/network/game-networking"
 require_relative "../lib/game/game"
 require_relative "../lib/game/lib/images"
 
-settings = YAML::load_file File.dirname(__FILE__) + "/settings.yml"
+Settings.load(File.dirname(__FILE__) + "/settings.yml")
 
-network = GameClient.new settings[:ip] , settings[:port]
-game    = ClientWindow.new network , settings[:name] , settings[:fullscreen]
+network = GameClient.new Settings.ip , Settings.port
+game    = ClientWindow.new network , Settings.name , Settings.fullscreen
 
 Images.load game
 

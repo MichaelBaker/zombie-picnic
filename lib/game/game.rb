@@ -11,6 +11,7 @@ Dir.glob(File.dirname(__FILE__) + "/lib/map_tiles/*.rb").each {|filename| requir
 require_relative "../ui/ui"
 include ShallotUI::Widgets
 
+require_relative "./lib/settings"
 require_relative "./lib/message_queue"
 require_relative "./lib/entities"
 require_relative "./lib/player"

@@ -2,3 +2,4 @@
 :port: 8337
 :name: Mr. Abeville von Periwinkle
 :fullscreen: false
+:player_movement_points: 5
