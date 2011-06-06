@@ -2,7 +2,7 @@ class BaseGrassTile < MapTile
   def initialize(position)
     super
     @type           = :grass
-    @speed_modifier = 1
+    @speed_modifier = Settings.grass_movement_points
   end
 end
 

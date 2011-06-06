@@ -2,7 +2,7 @@ class BaseWaterTile < MapTile
   def initialize(position)
     super
     @type           = :water
-    @speed_modifier = 4
+    @speed_modifier = Settings.water_movement_points
   end
 end
 

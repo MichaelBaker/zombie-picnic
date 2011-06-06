@@ -3,3 +3,5 @@
 :name: Mr. Abeville von Periwinkle
 :fullscreen: false
 :player_movement_points: 5
+:grass_movement_points: 1
+:water_movement_points: 4
