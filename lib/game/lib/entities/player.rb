@@ -30,12 +30,13 @@ class BasePlayer
   end
   
   def attributes
-    { client_id: @client_id,
-      entity_id: @entity_id,
-      position:  {x: position.x , y: position.y},
-      ready:     @ready,
-      name:      @name,
-      speed:     @speed }
+    { client_id:       @client_id,
+      entity_id:       @entity_id,
+      position:        {x: position.x , y: position.y},
+      ready:           @ready,
+      name:            @name,
+      speed:           @speed,
+      movement_points: @movement_points }
   end
   
   def move_down(tile)
@@ -65,15 +66,16 @@ class ClientPlayer < BasePlayer
   def initialize(attributes)
     position = Vector.new attributes[:position][:x] , attributes[:position][:y]
     
-    super(attributes[:client_id] , attributes[:entity_id] , position)
+    super attributes[:client_id] , attributes[:entity_id] , position
     
-    @ready = attributes[:ready]
-    @image = Images[:player]
-    @name  = attributes[:name]
-    @speed = attributes[:speed]
+    @ready           = attributes[:ready]
+    @image           = Images[:player]
+    @name            = attributes[:name]
+    @speed           = attributes[:speed]
+    @movement_points = attributes[:movement_points]
   end
   
   def self.from_attributes(attributes)
-    new(attributes)
+    new attributes
   end
 end
