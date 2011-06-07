@@ -7,7 +7,7 @@ class BasePlayer
     @entity_id  = entity_id
     @position   = position
     @ready      = false
-    @name       = "No one"
+    @name       = "Joining"
     @speed      = Settings.player_movement_points
     
     reset_movement_points

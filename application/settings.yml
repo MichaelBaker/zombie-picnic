@@ -5,3 +5,5 @@
 :player_movement_points: 5
 :grass_movement_points: 1
 :water_movement_points: 4
+:runner_speed: 5
+:runners: 1
