@@ -28,7 +28,8 @@ module StateManagement
   end
   
   def initiate_zombie_turn
-    puts "Zombie Turn!"
+    @network.broadcast_tcp_message ZombieTurn.new
+    change_state ServerZombieTurn , self
     advance_turn
   end
   

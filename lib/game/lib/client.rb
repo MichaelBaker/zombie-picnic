@@ -41,6 +41,14 @@ class ClientWindow < Window
       when UpdateEntityAttribute
         entity = @entities[message.entity_id]
         entity.send "#{message.attribute}=" , message.value if entity
+      when ZombieTurn
+        change_state ClientZombieTurn , self
+      when YourTurn
+        player = @entities.find_player_by_client_id message.client_id
+        change_state YourTurnState , self , player
+      when StartPlayerTurn
+        player = @entities.find_player_by_client_id message.client_id
+        change_state ClientPlayerTurnState , self , player
       else
         @state.handle_message message
       end

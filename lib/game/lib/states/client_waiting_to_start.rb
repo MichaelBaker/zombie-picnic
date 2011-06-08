@@ -41,16 +41,6 @@ class ClientWaitingToStartState
     @game.ui["status text"].text = self.ready_message
   end
   
-  handle YourTurn do
-    player = @game.entities.find_player_by_client_id message.client_id
-    @game.change_state YourTurnState , @game , player
-  end
-  
-  handle StartPlayerTurn do
-    player = @game.entities.find_player_by_client_id message.client_id
-    @game.change_state ClientPlayerTurnState , @game , player
-  end
-  
   handle YourId do
     @game.my_client_id = message.client_id
   end
