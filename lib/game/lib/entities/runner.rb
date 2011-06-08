@@ -1,11 +1,11 @@
 class BaseRunner
-  attr_accessor :position , :speed , :movement_points
-  attr_reader :entity_id
+  include Zombie
   
-  def initialize(entity_id , position)
+  attr_accessor :position , :speed , :movement_points , :entity_id
+  
+  def initialize(position)
     @speed     = Settings.runner_speed
     @position  = position
-    @entity_id = entity_id
     
     reset_movement_points
   end
@@ -27,8 +27,9 @@ class ClientRunner < BaseRunner
   
   def initialize(attributes)
     position = Vector.new attributes[:position][:x] , attributes[:position][:y]
-    super attributes[:entity_id] , position
+    super position
     
+    @entity_id       = attributes[:entity_id]
     @image           = Images[:runner]
     @speed           = attributes[:speed]
     @movement_points = attributes[:movement_points]

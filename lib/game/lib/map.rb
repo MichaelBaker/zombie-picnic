@@ -44,6 +44,10 @@ class BaseMap
     Vector.new @start_x += 1 , @start_y
   end
   
+  def next_zombie_position
+    Vector.new 10 , 10
+  end
+  
   def reachable_tiles(entity)
     tiles_reachable_from entity.position , entity.movement_points
   end

@@ -8,11 +8,16 @@ class Entities
   def initialize
     @entities   = Hash.new
     @players    = Hash.new
+    @zombies    = Hash.new
     @next_id    = 0
   end
   
   def entity_at?(position)
-    @entities.values.any? do |entity| entity.position == position end
+    entities.each do |entity|
+      return entity if entity.position == position
+    end
+    
+    nil
   end
   
   def entities
@@ -28,20 +33,23 @@ class Entities
   end
   
   def <<(entity)
-    if !entity.respond_to?(:entity_id) || entity.entity_id.nil?
+    if !entity.respond_to?(:entity_id)
       raise ArgumentError.new("Entities must have an entity_id")
     end
     
-    if entity.respond_to?(:client_id)
+    entity.entity_id = next_id
+    
+    if entity.kind_of? BasePlayer
       add_player entity
+    elsif entity.kind_of? Zombie
+      add_zombie entity
     else
       @entities[entity.entity_id] = entity
     end
   end
   
-  def add_player(entity)
-    @entities[entity.entity_id] = entity
-    @players[entity.client_id]  = entity
+  def add_zombie(entity)
+    
   end
   
   def add_entity_from_server(message)
@@ -55,5 +63,21 @@ class Entities
   
   def players
     @players.values
+  end
+  
+  def zombies
+    @zombies.values
+  end
+
+private
+
+  def add_zombie(entity)
+    @entities[entity.entity_id] = entity
+    @zombies[entity.entity_id]  = entity
+  end
+  
+  def add_player(entity)
+    @entities[entity.entity_id] = entity
+    @players[entity.client_id]  = entity
   end
 end

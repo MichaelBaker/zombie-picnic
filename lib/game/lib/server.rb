@@ -1,6 +1,9 @@
 require "yaml"
+require_relative "server_entity_management"
 
 class ServerWindow < Window
+  include EntityManagement
+  
   attr_reader :entities , :network , :host , :map
   
   def initialize(network)
@@ -36,32 +39,9 @@ class ServerWindow < Window
   def change_state(state_class , *args)
     @state = state_class.new(*args)
   end
-  
-  def make_host(player)
-    player.host = true
-    @host       = player
-    @host.ready = true
-    @network.send_tcp_message_to player.client_id , RequestStart.new(client_id: player.client_id)
-    @network.send_tcp_message_to player.client_id , ReadyToStart.new(client_id: player.client_id)
-  end
 
   def notify_host_that_client_isnt_ready(client_id)
     @network.send_tcp_message_to @host.client_id , NotReadyToStart.new(client_id: client_id)
-  end
-  
-  def broadcast_new_entity(entity)
-    @network.broadcast_tcp_message CreateEntity.new(entity)
-  end
-  
-  def send_entities_to(client_id)
-    @entities.each do |entity|
-      @network.send_tcp_message_to client_id , CreateEntity.new(entity)
-    end
-  end
-  
-  def create_player(client_id)
-    @entities << BasePlayer.new(client_id , @entities.next_id , @map.next_starting_position)
-    @network.send_tcp_message_to client_id , RequestName.new
   end
   
   def draw
@@ -102,10 +82,6 @@ class ServerWindow < Window
   def initialize_turn_order
     @turn_order = @entities.players.map(&:client_id).shuffle
     @turn       = 0
-  end
-  
-  def current_player
-    @entities.find_player_by_client_id current_turn_client_id
   end
   
   def advance_turn

@@ -12,5 +12,6 @@ Settings.load(File.dirname(__FILE__) + "/settings.yml")
 network = GameServer.new Settings.port
 game    = ServerWindow.new network
 game.load_map "map"
+game.initialize_zombies
 
 game.start

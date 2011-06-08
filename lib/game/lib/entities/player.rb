@@ -1,10 +1,9 @@
 class BasePlayer
-  attr_accessor :position , :name , :ready , :host , :speed , :movement_points
-  attr_reader   :client_id , :entity_id
+  attr_accessor :position , :name , :ready , :host , :speed , :movement_points , :entity_id
+  attr_reader   :client_id
   
-  def initialize(client_id , entity_id , position)
+  def initialize(client_id , position)
     @client_id  = client_id
-    @entity_id  = entity_id
     @position   = position
     @ready      = false
     @name       = "Joining"
@@ -66,9 +65,10 @@ class ClientPlayer < BasePlayer
   def initialize(attributes)
     position = Vector.new attributes[:position][:x] , attributes[:position][:y]
     
-    super attributes[:client_id] , attributes[:entity_id] , position
+    super attributes[:client_id] , position
     
     @ready           = attributes[:ready]
+    @entity_id       = attributes[:entity_id]
     @image           = Images[:player]
     @name            = attributes[:name]
     @speed           = attributes[:speed]

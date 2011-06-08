@@ -9,6 +9,7 @@ require_relative "./lib/map"
 Dir.glob(File.dirname(__FILE__) + "/lib/map_tiles/*.rb").each {|filename| require_relative filename}
 
 require_relative "./lib/entities"
+require_relative "./lib/entities/zombie"
 Dir.glob(File.dirname(__FILE__) + "/lib/entities/*.rb").each {|filename| require_relative filename}
 
 require_relative "../ui/ui"
