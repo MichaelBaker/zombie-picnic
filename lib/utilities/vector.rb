@@ -25,4 +25,8 @@ class Vector
   def ==(other)
     @x == other.x && @y == other.y
   end
+  
+  def distance_to(other)
+    (@x - other.x).abs + (@y - other.y).abs
+  end
 end

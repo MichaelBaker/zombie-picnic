@@ -45,7 +45,7 @@ class BaseMap
   end
   
   def next_zombie_position
-    Vector.new 10 , 10
+    Vector.new 10 , 11
   end
   
   def reachable_tiles(entity)
@@ -56,8 +56,6 @@ class BaseMap
     @tiles[{x: position.x , y: position.y}]
   end
   
-private
-  
   def adjacent_tiles(tile)
     tiles = [tile.position.up , tile.position.down , tile.position.right , tile.position.left].map do |new_position|
       tile_at new_position
@@ -66,6 +64,14 @@ private
     tiles
   end
   
+  def entity_tiles
+    @game.entities.map do |entity|
+      tile_at entity.position
+    end
+  end
+  
+private
+
   def tiles_reachable_from(position , speed)
     starting_tile = tile_at position
     return [] if starting_tile.nil? || speed - starting_tile.speed_modifier < 1
