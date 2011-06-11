@@ -6,7 +6,7 @@ File.open File.dirname(__FILE__) + "/../assets/maps/map.map" , "w" do |file|
       file.puts "  -"
       file.puts "    :x: #{column}"
       file.puts "    :y: #{row}"
-      file.puts "    :type: #{rand < 0.3 ? ":water" : ":grass"}"
+      file.puts "    :type: #{rand < 0.1 ? ":water" : ":grass"}"
     end
   end
 end

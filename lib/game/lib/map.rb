@@ -22,6 +22,9 @@ class BaseMap
       hash[{x: position.x , y: position.y}] = tile_class.new(position)
       hash
     end
+    
+    @width  = @tiles.keys.map {|t| t[:x]}.max + 1
+    @height = @tiles.keys.map {|t| t[:y]}.max + 1
   end
   
   def tiles
@@ -45,7 +48,13 @@ class BaseMap
   end
   
   def next_zombie_position
-    Vector.new 10 , 11
+    position = Vector.new (rand * 100).to_i % @width , (rand * 100).to_i % @height
+    valid_zombie_position?(position) ? position : next_zombie_position
+  end
+  
+  def valid_zombie_position?(position)
+    tile = tile_at position
+    !tile.kind_of?(BaseWaterTile) && !@game.entities.entity_at?(position)
   end
   
   def reachable_tiles(entity)
