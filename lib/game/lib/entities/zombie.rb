@@ -1,4 +1,8 @@
 module Zombie
+  def self.included(base_class)
+    base_class.send :include , Entity
+  end
+  
   def can_move?(map)
     @movement_points > 0 && !reachable_tiles(map).empty?
   end

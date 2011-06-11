@@ -28,7 +28,11 @@ class ServerWindow < Window
       @network.send_tcp_message_to client_id , LoadMap.new(@map)
       send_entities_to             client_id
       create_player                client_id
+      begin
       broadcast_new_entity         @entities.players.last
+    rescue Exception => e
+      puts e
+    end
       
       if @host
         notify_host_that_client_isnt_ready client_id

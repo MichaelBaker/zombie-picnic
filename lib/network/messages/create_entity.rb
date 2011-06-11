@@ -4,6 +4,6 @@ class CreateEntity < Message
   def initialize(entity , options = {})
     super options
     @type       = entity.class.name.gsub /Base/ , ""
-    @attributes = entity.attributes
+    @attributes = entity.syncable_attributes
   end
 end

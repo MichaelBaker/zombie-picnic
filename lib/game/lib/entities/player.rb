@@ -1,6 +1,7 @@
 class BasePlayer
-  attr_accessor :position , :name , :ready , :host , :speed , :movement_points , :entity_id
-  attr_reader   :client_id
+  include Entity
+  
+  syncable_attributes :position , :name , :ready , :host , :speed , :movement_points , :entity_id , :client_id
   
   def initialize(client_id , position)
     @client_id  = client_id
@@ -28,16 +29,6 @@ class BasePlayer
     @ready
   end
   
-  def attributes
-    { client_id:       @client_id,
-      entity_id:       @entity_id,
-      position:        {x: position.x , y: position.y},
-      ready:           @ready,
-      name:            @name,
-      speed:           @speed,
-      movement_points: @movement_points }
-  end
-  
   def move_down(tile)
     self.position = self.position.down
     self.movement_points -= tile.speed_modifier
@@ -63,16 +54,9 @@ class ClientPlayer < BasePlayer
   attr_reader :image
   
   def initialize(attributes)
-    position = Vector.new attributes[:position][:x] , attributes[:position][:y]
-    
-    super attributes[:client_id] , position
-    
-    @ready           = attributes[:ready]
-    @entity_id       = attributes[:entity_id]
-    @image           = Images[:player]
-    @name            = attributes[:name]
-    @speed           = attributes[:speed]
-    @movement_points = attributes[:movement_points]
+    super attributes[:client_id] , attributes[:position]
+    self.attributes = attributes
+    @image          = Images[:player]
   end
   
   def self.from_attributes(attributes)
