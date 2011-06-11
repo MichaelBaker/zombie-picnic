@@ -69,6 +69,12 @@ class Entities
     @zombies.values
   end
 
+  def closest_player(position)
+    players.min do |a , b|
+      position.distance_to(a.position) <=> position.distance_to(b.position)
+    end
+  end
+  
 private
 
   def add_zombie(entity)

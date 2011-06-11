@@ -1,11 +1,21 @@
 module Zombie
   def can_move?(map)
-    @movement_points > 0 && !map.reachable_tiles(self).empty?
+    @movement_points > 0 && !reachable_tiles(map).empty?
+  end
+  
+  def reachable_tiles(map)
+    map.reachable_tiles(self).select do |tile|
+      reachable? tile
+    end
   end
 
-  def move(players , map)
+  def reachable?(tile)
+    !tile.kind_of? BaseWaterTile
+  end
+  
+  def move(entities , map)
     original_position = @position
-    @position         = choose_destination closest_player(players) , possible_moves(map)
+    @position         = choose_destination entities.closest_player(@position) , possible_moves(entities , map)
     @movement_points -= map.tile_at(original_position).speed_modifier
   end
   
@@ -21,14 +31,11 @@ private
     end
   end
   
-  def possible_moves(map)
-    adjacent_tiles = map.adjacent_tiles(self) - map.entity_tiles
-    (adjacent_tiles << map.tile_at(@position)).map &:position
-  end
-  
-  def closest_player(players)
-    players.min do |a , b|
-      @position.distance_to(a.position) <=> @position.distance_to(b.position)
+  def possible_moves(entities , map)
+    adjacent_tiles = map.adjacent_tiles(self).select do |tile|
+      reachable?(tile) && !entities.entity_at?(tile.position)
     end
+    
+    (adjacent_tiles << map.tile_at(@position)).map &:position
   end
 end
