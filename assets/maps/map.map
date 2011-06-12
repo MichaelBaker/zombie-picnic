@@ -34,31 +34,31 @@
   -
     :x: 8
     :y: 0
-    :type: :grass
+    :type: :wood
   -
     :x: 9
     :y: 0
-    :type: :water
+    :type: :wood
   -
     :x: 10
     :y: 0
-    :type: :grass
+    :type: :wood
   -
     :x: 11
     :y: 0
-    :type: :grass
+    :type: :wood
   -
     :x: 12
     :y: 0
-    :type: :grass
+    :type: :wood
   -
     :x: 13
     :y: 0
-    :type: :grass
+    :type: :wood
   -
     :x: 14
     :y: 0
-    :type: :grass
+    :type: :wood
   -
     :x: 15
     :y: 0
@@ -134,31 +134,31 @@
   -
     :x: 8
     :y: 1
-    :type: :grass
+    :type: :wood
   -
     :x: 9
     :y: 1
-    :type: :grass
+    :type: :wood
   -
     :x: 10
     :y: 1
-    :type: :grass
+    :type: :wood
   -
     :x: 11
     :y: 1
-    :type: :grass
+    :type: :wood
   -
     :x: 12
     :y: 1
-    :type: :water
+    :type: :wood
   -
     :x: 13
     :y: 1
-    :type: :grass
+    :type: :wood
   -
     :x: 14
     :y: 1
-    :type: :grass
+    :type: :wood
   -
     :x: 15
     :y: 1
@@ -234,31 +234,31 @@
   -
     :x: 8
     :y: 2
-    :type: :grass
+    :type: :wood
   -
     :x: 9
     :y: 2
-    :type: :grass
+    :type: :wood
   -
     :x: 10
     :y: 2
-    :type: :grass
+    :type: :wood
   -
     :x: 11
     :y: 2
-    :type: :grass
+    :type: :wood
   -
     :x: 12
     :y: 2
-    :type: :grass
+    :type: :wood
   -
     :x: 13
     :y: 2
-    :type: :grass
+    :type: :wood
   -
     :x: 14
     :y: 2
-    :type: :grass
+    :type: :wood
   -
     :x: 15
     :y: 2
@@ -338,27 +338,27 @@
   -
     :x: 9
     :y: 3
-    :type: :grass
+    :type: :wood
   -
     :x: 10
     :y: 3
-    :type: :grass
+    :type: :wood
   -
     :x: 11
     :y: 3
-    :type: :grass
+    :type: :wood
   -
     :x: 12
     :y: 3
-    :type: :grass
+    :type: :wood
   -
     :x: 13
     :y: 3
-    :type: :grass
+    :type: :wood
   -
     :x: 14
     :y: 3
-    :type: :grass
+    :type: :wood
   -
     :x: 15
     :y: 3
