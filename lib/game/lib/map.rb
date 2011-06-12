@@ -33,6 +33,31 @@ class BaseMap
     @height = @tiles.keys.map {|t| t[:y]}.max + 1
   end
   
+  def right_wall_at?(position)
+    wall_with_direction_at? position , :right
+  end
+  
+  def down_wall_at?(position)
+    wall_with_direction_at? position , :down
+  end
+  
+  def left_wall_at?(position)
+    wall_with_direction_at? position , :left
+  end
+  
+  def up_wall_at?(position)
+    wall_with_direction_at? position , :up
+  end
+  
+  def wall_with_direction_at?(position , direction)
+    walls = walls_at x: position.x , y: position.y
+    walls.any? {|wall| wall.direction == direction}
+  end
+  
+  def walls_at(position)
+    @walls[position]
+  end
+      
   def walls
     @walls.values
   end
@@ -89,6 +114,26 @@ class BaseMap
     end
   end
   
+  def blocked_by_wall?(origin , destination)
+    if destination.x == origin.left.x && (right_wall_at?(destination) || left_wall_at?(origin))
+      return true
+    end
+    
+    if destination.x == origin.right.x && (left_wall_at?(destination) || right_wall_at?(origin))
+      return true
+    end
+    
+    if destination.y == origin.up.y && (down_wall_at?(destination) || up_wall_at?(origin))
+      return true
+    end
+    
+    if destination.y == origin.down.y && (up_wall_at?(destination) || down_wall_at?(origin))
+      return true
+    end
+    
+    return false
+  end
+  
 private
 
   def tiles_reachable_from(position , speed)
@@ -96,7 +141,7 @@ private
     return [] if starting_tile.nil? || speed - starting_tile.speed_modifier < 1
     
     adjacent_tiles = adjacent_tiles(starting_tile).select do |tile|
-      !@game.entities.entity_at?(tile.position)
+      !@game.entities.entity_at?(tile.position) && !blocked_by_wall?(starting_tile.position , tile.position)
     end
     
     adjacent_tiles.map do |tile|
