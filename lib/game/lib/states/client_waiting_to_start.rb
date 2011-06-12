@@ -9,7 +9,7 @@ class ClientWaitingToStartState
   
   handle LoadMap do
     @game.ui["status text"].text = "Loading Map"
-    @game.map = ClientMap.new(message.tiles , @game)
+    @game.map = ClientMap.new(message.map_hash , @game)
     @game.ui["status text"].text = "Map is ready" if @game.ui["status text"].text == "Loading Map"
   end
   

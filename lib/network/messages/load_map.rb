@@ -1,8 +1,8 @@
 class LoadMap < Message
-  attr_reader :tiles
+  attr_reader :map_hash
   
   def initialize(map , options = {})
     super options
-    @tiles = map.original_tiles
+    @map_hash = map.map_hash
   end
 end

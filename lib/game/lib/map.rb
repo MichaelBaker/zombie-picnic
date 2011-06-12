@@ -7,17 +7,23 @@ class MapTile
 end
 
 class BaseMap
-  attr_reader :tiles , :original_tiles
+  attr_reader :tiles , :map_hash
   
-  def initialize(tiles , game)
-    @original_tiles = tiles
-    @game           = game
-    @start_x        = -1
-    @start_y        = 0
+  def initialize(map_hash , game)
+    @map_hash = map_hash
+    @game     = game
+    @start_x  = -1
+    @start_y  = 0
+    @walls    = Hash.new {|hash , key| hash[key] = Array.new}
     
-    @tiles = tiles.inject Hash.new do |hash , info|
-      tile_class = Kernel.const_get "Base#{info[:type].capitalize}Tile"
+    @tiles = map_hash.inject Hash.new do |hash , info|
+      tile_class = Kernel.const_get "Base#{info[:type].constantize}Tile"
       position   = Vector.new info[:x] , info[:y]
+      
+      info[:walls].each do |wall|
+        wall_class = Kernel.const_get "Base#{wall[:type].constantize}"
+        @walls[{x: position.x , y: position.y}] << wall_class.new(position , wall[:direction])
+      end if info[:walls]
       
       hash[{x: position.x , y: position.y}] = tile_class.new(position)
       hash
@@ -25,6 +31,10 @@ class BaseMap
     
     @width  = @tiles.keys.map {|t| t[:x]}.max + 1
     @height = @tiles.keys.map {|t| t[:y]}.max + 1
+  end
+  
+  def walls
+    @walls.values
   end
   
   def tiles
@@ -96,14 +106,24 @@ private
 end
 
 class ClientMap < BaseMap
-  def initialize(tiles , game)
+  def initialize(map_hash , game)
     @game  = game
-    @tiles = tiles.inject Hash.new do |hash , info|
+    @walls = Hash.new {|hash , key| hash[key] = Array.new}
+    
+    @tiles = map_hash.inject Hash.new do |hash , info|
       tile_class = Kernel.const_get "Client#{info[:type].capitalize}Tile"
       position   = Vector.new info[:x] , info[:y]
+      
+      info[:walls].each do |wall|
+        wall_class = Kernel.const_get "Client#{wall[:type].constantize}"
+        @walls[{x: position.x , y: position.y}] << wall_class.new(position , wall[:direction])
+      end if info[:walls]
       
       hash[{x: position.x , y: position.y}] = tile_class.new(position)
       hash
     end
+    
+    @width  = @tiles.keys.map {|t| t[:x]}.max + 1
+    @height = @tiles.keys.map {|t| t[:y]}.max + 1
   end
 end

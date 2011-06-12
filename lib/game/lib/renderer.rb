@@ -3,6 +3,7 @@ module Renderer
     if @map
       draw_map
       draw_tile_highlights
+      draw_walls
       draw_entities
     end
       
@@ -11,6 +12,15 @@ module Renderer
   
 private
 
+  def draw_walls
+    @map.walls.each do |wall|
+      wall.each do |section|
+        section.image.draw section.image.width  * section.draw_position.x, 
+                           section.image.height * section.draw_position.y , 1
+      end
+    end
+  end
+  
   def draw_tile_highlights
     draw_movment_highlights
   end
