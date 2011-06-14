@@ -5,6 +5,7 @@ module Renderer
       draw_tile_highlights
       draw_entities
       draw_walls
+      Images[:directions].draw 1000 , 0 , 1
     end
       
     draw_ui

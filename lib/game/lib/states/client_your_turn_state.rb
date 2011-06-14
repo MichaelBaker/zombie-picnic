@@ -16,13 +16,13 @@ class YourTurnState
     case id
     when KbEnter , KbReturn
       @game.network.send_tcp_message EndTurn.new
-    when KbLeft
+    when KbA
       @game.network.send_tcp_message MovePlayerLeft.new
-    when KbRight
+    when KbD
       @game.network.send_tcp_message MovePlayerRight.new
-    when KbUp
+    when KbW
       @game.network.send_tcp_message MovePlayerUp.new
-    when KbDown
+    when KbS
       @game.network.send_tcp_message MovePlayerDown.new
     end
   end
