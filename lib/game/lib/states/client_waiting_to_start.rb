@@ -75,6 +75,14 @@ class ClientWaitingToStartState
         @ready = true
         @game.network.send_tcp_message ReadyToStart.new
       end
+    when KbUp
+      @game.move_viewport :up
+    when KbDown
+      @game.move_viewport :down
+    when KbRight
+      @game.move_viewport :right
+    when KbLeft
+      @game.move_viewport :left
     end
   end
 end

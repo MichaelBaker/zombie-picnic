@@ -11,7 +11,26 @@ module Renderer
     draw_ui
   end
   
+  def move_viewport(direction)
+    amount = 50
+    
+    case direction
+    when :up
+      viewport.y -= amount
+    when :down
+      viewport.y += amount
+    when :left
+      viewport.x -= amount
+    when :right
+      viewport.x += amount
+    end
+  end
+  
 private
+
+  def viewport
+    @viewport ||= Vector.new 0 , 0
+  end
 
   def draw_walls
     @map.walls.each do |wall|
@@ -21,7 +40,7 @@ private
         x = (section.draw_position.x - section.draw_position.y) * 50 + section.draw_position.y
         y = (section.draw_position.x + section.draw_position.y) * (50 / 2.0) + section.draw_position.y
         
-        section.image.draw x , y , 1
+        section.image.draw x - viewport.x , y - viewport.y , 1
       end
     end
   end
@@ -42,7 +61,7 @@ private
           highlighter = :other_player_walk_highlight
         end
         
-        Images[highlighter].draw x , y , 1
+        Images[highlighter].draw x - viewport.x , y - viewport.y , 1
       end
     end
   end
@@ -50,7 +69,7 @@ private
   def draw_selected_tile_highlight
     x = mouse_x - (mouse_x % 50)
     y = mouse_y - (mouse_y % 50)
-    Images[:tile_highlight].draw x , y , 50
+    Images[:tile_highlight].draw x - viewport.x , y - viewport.y , 50
   end
   
   def draw_entities
@@ -60,7 +79,7 @@ private
       x = (entity.position.x - entity.position.y) * image.height + entity.position.y
       y = (entity.position.x + entity.position.y) * (image.height / 2.0) + entity.position.y
       
-      entity.image.draw x , y , 1
+      entity.image.draw x - viewport.x , y - viewport.y , 1
     end
   end
   
@@ -71,7 +90,7 @@ private
       x = (tile.position.x - tile.position.y) * image.height + tile.position.y
       y = (tile.position.x + tile.position.y) * (image.height / 2.0) + tile.position.y
       
-      tile.image.draw x , y , 1
+      tile.image.draw x - viewport.x , y - viewport.y , 1
     end
   end
 end

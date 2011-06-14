@@ -24,6 +24,14 @@ class YourTurnState
       @game.network.send_tcp_message MovePlayerUp.new
     when KbS
       @game.network.send_tcp_message MovePlayerDown.new
+    when KbUp
+      @game.move_viewport :up
+    when KbDown
+      @game.move_viewport :down
+    when KbRight
+      @game.move_viewport :right
+    when KbLeft
+      @game.move_viewport :left
     end
   end
 end

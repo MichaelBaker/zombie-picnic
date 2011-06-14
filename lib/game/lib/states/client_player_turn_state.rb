@@ -13,6 +13,15 @@ class ClientPlayerTurnState
   end
   
   def button_down(id)
-    @game.network.send_tcp_message MovePlayerRight.new
+    case id
+    when KbUp
+      @game.move_viewport :up
+    when KbDown
+      @game.move_viewport :down
+    when KbRight
+      @game.move_viewport :right
+    when KbLeft
+      @game.move_viewport :left
+    end
   end
 end
