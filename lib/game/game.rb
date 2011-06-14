@@ -1,5 +1,6 @@
 require "gosu"
 require "texplay"
+
 include Gosu
 
 require_relative "./lib/state"

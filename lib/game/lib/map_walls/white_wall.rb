@@ -26,9 +26,13 @@ private
 
   def adjusted_x
     if @direction == :left
-      @position.x - 0.5
+      @position.x - 1.0
     elsif @direction == :right
-      @position.x + 0.5
+      @position.x
+    elsif @direction == :up
+      @position.x - 0.5
+    elsif @direction == :down
+      @position.x - 0.5
     else
       @position.x
     end
@@ -36,9 +40,13 @@ private
 
   def adjusted_y
     if @direction == :up
-      @position.y - 0.5
+      @position.y - 1.0
     elsif @direction == :down
-      @position.y + 0.5
+      @position.y + 0.25
+    elsif @direction == :left
+      @position.y - 0.5
+    elsif @direction == :right
+      @position.y - 0.5
     else
       @position.y
     end

@@ -3,8 +3,8 @@ module Renderer
     if @map
       draw_map
       draw_tile_highlights
-      draw_walls
       draw_entities
+      draw_walls
     end
       
     draw_ui
@@ -15,8 +15,12 @@ private
   def draw_walls
     @map.walls.each do |wall|
       wall.each do |section|
-        section.image.draw section.image.width  * section.draw_position.x, 
-                           section.image.height * section.draw_position.y , 1
+        image = section.image
+        
+        x = (section.draw_position.x - section.draw_position.y) * 50 + section.draw_position.y
+        y = (section.draw_position.x + section.draw_position.y) * (50 / 2.0) + section.draw_position.y
+        
+        section.image.draw x , y , 1
       end
     end
   end
@@ -26,15 +30,18 @@ private
   end
   
   def draw_movment_highlights
-    @entities.players.each do |player|      
+    @entities.players.each do |player|
       @map.reachable_tiles(player).each do |tile|
+        x = (tile.position.x - tile.position.y) * 50 + tile.position.y
+        y = (tile.position.x + tile.position.y) * (50 / 2.0) + tile.position.y
+        
         if player.client_id == current_player_client_id
           highlighter = :walk_highlight
         else
           highlighter = :other_player_walk_highlight
         end
         
-        Images[highlighter].draw tile.position.x * 50 , tile.position.y * 50 , 1
+        Images[highlighter].draw x , y , 1
       end
     end
   end
@@ -47,13 +54,23 @@ private
   
   def draw_entities
     @entities.each do |entity|
-      entity.image.draw entity.position.x * entity.image.width , entity.position.y * entity.image.height , 1
+      image = entity.image
+      
+      x = (entity.position.x - entity.position.y) * image.height + entity.position.y
+      y = (entity.position.x + entity.position.y) * (image.height / 2.0) + entity.position.y
+      
+      entity.image.draw x , y , 1
     end
   end
   
   def draw_map
     @map.tiles.each do |tile|
-      tile.image.draw tile.position.x * tile.image.width , tile.position.y * tile.image.height , 1
+      image = tile.image
+      
+      x = (tile.position.x - tile.position.y) * image.height + tile.position.y
+      y = (tile.position.x + tile.position.y) * (image.height / 2.0) + tile.position.y
+      
+      tile.image.draw x , y , 1
     end
   end
 end
