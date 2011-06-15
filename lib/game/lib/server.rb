@@ -25,14 +25,10 @@ class ServerWindow < Window
       return unless @state.instance_of?(ServerWaitingToStartState)
       
       @network.send_tcp_message_to client_id , YourId.new(client_id: client_id)
-      @network.send_tcp_message_to client_id , LoadMap.new(@map)
       send_entities_to             client_id
       create_player                client_id
-      begin
+      @network.send_tcp_message_to client_id , LoadMap.new(@map)
       broadcast_new_entity         @entities.players.last
-    rescue Exception => e
-      puts e
-    end
       
       if @host
         notify_host_that_client_isnt_ready client_id

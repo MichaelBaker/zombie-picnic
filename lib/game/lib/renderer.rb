@@ -1,4 +1,7 @@
 module Renderer
+  TileWidth  = 100
+  TileHeight = 50
+  
   def draw
     if @map
       draw_map
@@ -37,8 +40,8 @@ private
       wall.each do |section|
         image = section.image
         
-        x = (section.draw_position.x - section.draw_position.y) * 50 + section.draw_position.y
-        y = (section.draw_position.x + section.draw_position.y) * (50 / 2.0) + section.draw_position.y
+        x = (section.draw_position.x - section.draw_position.y) * TileHeight + section.draw_position.y
+        y = (section.draw_position.x + section.draw_position.y) * (TileHeight / 2.0) + section.draw_position.y
         
         section.image.draw x - viewport.x , y - viewport.y , 1
       end
@@ -52,8 +55,8 @@ private
   def draw_movment_highlights
     @entities.players.each do |player|
       @map.reachable_tiles(player).each do |tile|
-        x = (tile.position.x - tile.position.y) * 50 + tile.position.y
-        y = (tile.position.x + tile.position.y) * (50 / 2.0) + tile.position.y
+        x = (tile.position.x - tile.position.y) * TileHeight + tile.position.y
+        y = (tile.position.x + tile.position.y) * (TileHeight / 2.0) + tile.position.y
         
         if player.client_id == current_player_client_id
           highlighter = :walk_highlight
@@ -66,18 +69,12 @@ private
     end
   end
   
-  def draw_selected_tile_highlight
-    x = mouse_x - (mouse_x % 50)
-    y = mouse_y - (mouse_y % 50)
-    Images[:tile_highlight].draw x - viewport.x , y - viewport.y , 50
-  end
-  
   def draw_entities
     @entities.each do |entity|
       image = entity.image
       
-      x = (entity.position.x - entity.position.y) * image.height + entity.position.y
-      y = (entity.position.x + entity.position.y) * (image.height / 2.0) + entity.position.y
+      x = (entity.position.x - entity.position.y) * TileHeight + entity.position.y
+      y = (entity.position.x + entity.position.y) * (TileHeight / 2.0) + entity.position.y
       
       entity.image.draw x - viewport.x , y - viewport.y , 1
     end
@@ -87,8 +84,8 @@ private
     @map.tiles.each do |tile|
       image = tile.image
       
-      x = (tile.position.x - tile.position.y) * image.height + tile.position.y
-      y = (tile.position.x + tile.position.y) * (image.height / 2.0) + tile.position.y
+      x = (tile.position.x - tile.position.y) * TileHeight + tile.position.y
+      y = (tile.position.x + tile.position.y) * (TileHeight / 2.0) + tile.position.y
       
       tile.image.draw x - viewport.x , y - viewport.y , 1
     end
