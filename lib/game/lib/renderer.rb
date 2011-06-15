@@ -76,7 +76,7 @@ private
       x = (entity.position.x - entity.position.y) * TileHeight + entity.position.y
       y = (entity.position.x + entity.position.y) * (TileHeight / 2.0) + entity.position.y
       
-      entity.image.draw x - viewport.x , y - viewport.y , 1
+      entity.image.draw x - viewport.x , y - viewport.y + (50 - image.height) , 1
     end
   end
   
@@ -87,7 +87,7 @@ private
       x = (tile.position.x - tile.position.y) * TileHeight + tile.position.y
       y = (tile.position.x + tile.position.y) * (TileHeight / 2.0) + tile.position.y
       
-      tile.image.draw x - viewport.x , y - viewport.y , 1
+      tile.image.draw x - viewport.x , y - viewport.y + (50 - image.height) , 1
     end
   end
 end
