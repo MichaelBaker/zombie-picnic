@@ -1,11 +1,12 @@
 class BaseRunner
   include Zombie
   
-  syncable_attributes :position , :speed , :movement_points , :entity_id
+  syncable_attributes :position , :speed , :movement_points , :entity_id , :sight_range
   
   def initialize(position)
-    @speed     = Settings.runner_speed
-    @position  = position
+    @speed       = Settings.runner_speed
+    @position    = position
+    @sight_range = 20
     
     reset_movement_points
   end

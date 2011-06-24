@@ -1,14 +1,15 @@
 class BasePlayer
   include Entity
   
-  syncable_attributes :position , :name , :ready , :host , :speed , :movement_points , :entity_id , :client_id
+  syncable_attributes :position , :name , :ready , :host , :speed , :movement_points , :entity_id , :client_id , :sight_range
   
   def initialize(client_id , position)
-    @client_id  = client_id
-    @position   = position
-    @ready      = false
-    @name       = "Joining"
-    @speed      = Settings.player_movement_points
+    @client_id   = client_id
+    @position    = position
+    @ready       = false
+    @name        = "Joining"
+    @speed       = Settings.player_movement_points
+    @sight_range = 5
     
     reset_movement_points
   end

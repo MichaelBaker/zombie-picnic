@@ -70,17 +70,25 @@ private
   end
   
   def draw_entities
+    viewable_tiles = @map.find_viewable_tiles(@entities.find_player_by_client_id(@my_client_id)).map do |tile|
+      tile.position
+    end
+    
     @entities.each do |entity|
-      image = entity.image
-      
-      x = (entity.position.x - entity.position.y) * TileHeight + entity.position.y
-      y = (entity.position.x + entity.position.y) * (TileHeight / 2.0) + entity.position.y
-      
-      entity.image.draw x - viewport.x , y - viewport.y + (50 - image.height) , 1
+      if viewable_tiles.include? entity.position
+        image = entity.image
+        
+        x = (entity.position.x - entity.position.y) * TileHeight + entity.position.y
+        y = (entity.position.x + entity.position.y) * (TileHeight / 2.0) + entity.position.y
+        
+        entity.image.draw(x - viewport.x , y - viewport.y + (50 - image.height) , 1)
+      end
     end
   end
   
   def draw_map
+    viewable_tiles = @map.find_viewable_tiles(@entities.find_player_by_client_id(@my_client_id))
+    
     @map.tiles.each do |tile|
       image = tile.image
       
@@ -88,6 +96,10 @@ private
       y = (tile.position.x + tile.position.y) * (TileHeight / 2.0) + tile.position.y
       
       tile.image.draw x - viewport.x , y - viewport.y + (50 - image.height) , 1
+      
+      unless viewable_tiles.include? tile
+        Images[:shroud].draw(x - viewport.x , y - viewport.y + (50 - image.height) , 1)
+      end
     end
   end
 end

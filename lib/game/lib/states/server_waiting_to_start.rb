@@ -25,7 +25,7 @@ class ServerWaitingToStartState
   
   handle NotReadyToStart do
     if @player.host?
-      @game.start_game if @game.entities.players.all &:ready?
+      @game.start_game if @game.entities.players.all? &:ready?
     else
       @player.ready = false
       @game.network.broadcast_tcp_message message
