@@ -8,10 +8,22 @@ module Renderer
       draw_tile_highlights
       draw_entities
       draw_walls
+      draw_debug
       Images[:directions].draw 1000 , 0 , 1
     end
       
     draw_ui
+  end
+  
+  def draw_debug
+    player = @entities.find_player_by_client_id @my_client_id
+    
+    @map.do_fov(player.position.x, player.position.y, 8).each do |position|
+      x = (position.x - position.y) * TileHeight + position.y
+      y = (position.x + position.y) * (TileHeight / 2.0) + position.y
+      
+      Images[:debug].draw x - viewport.x , y - viewport.y , 1
+    end
   end
   
   def move_viewport(direction)
@@ -70,25 +82,15 @@ private
   end
   
   def draw_entities
-    viewable_tiles = @map.find_viewable_tiles(@entities.find_player_by_client_id(@my_client_id)).map do |tile|
-      tile.position
-    end
-    
     @entities.each do |entity|
-      if viewable_tiles.include? entity.position
-        image = entity.image
-        
-        x = (entity.position.x - entity.position.y) * TileHeight + entity.position.y
-        y = (entity.position.x + entity.position.y) * (TileHeight / 2.0) + entity.position.y
-        
-        entity.image.draw(x - viewport.x , y - viewport.y + (50 - image.height) , 1)
-      end
+      x = (entity.position.x - entity.position.y) * TileHeight + entity.position.y
+      y = (entity.position.x + entity.position.y) * (TileHeight / 2.0) + entity.position.y
+      
+      entity.image.draw(x - viewport.x , y - viewport.y + (50 - entity.image.height) , 1)
     end
   end
   
   def draw_map
-    viewable_tiles = @map.find_viewable_tiles(@entities.find_player_by_client_id(@my_client_id))
-    
     @map.tiles.each do |tile|
       image = tile.image
       
@@ -96,10 +98,6 @@ private
       y = (tile.position.x + tile.position.y) * (TileHeight / 2.0) + tile.position.y
       
       tile.image.draw x - viewport.x , y - viewport.y + (50 - image.height) , 1
-      
-      unless viewable_tiles.include? tile
-        Images[:shroud].draw(x - viewport.x , y - viewport.y + (50 - image.height) , 1)
-      end
     end
   end
 end

@@ -7,6 +7,8 @@ class MapTile
 end
 
 class BaseMap
+  include FieldOfView
+  
   attr_reader :tiles , :map_hash
   
   def initialize(map_hash , game)
@@ -31,24 +33,6 @@ class BaseMap
     
     @width  = @tiles.keys.map {|t| t[:x]}.max + 1
     @height = @tiles.keys.map {|t| t[:y]}.max + 1
-  end
-  
-  def find_viewable_tiles(entity)
-    tiles_viewable_from entity.position , entity.sight_range
-  end
-  
-  def tiles_viewable_from(position , range)
-    starting_tile = tile_at position
-    return [] if range == 0
-    
-    tiles = [starting_tile]
-    
-    adjacent_tiles(starting_tile).each do |tile|
-      tiles << tile
-      tiles.concat tiles_viewable_from(tile.position , range - 1)
-    end
-    
-    tiles.uniq
   end
   
   def right_wall_at?(position)
