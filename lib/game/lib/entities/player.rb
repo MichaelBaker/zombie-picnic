@@ -9,7 +9,7 @@ class BasePlayer
     @ready       = false
     @name        = "Joining"
     @speed       = Settings.player_movement_points
-    @sight_range = 6
+    @sight_range = 3
     
     reset_movement_points
   end
