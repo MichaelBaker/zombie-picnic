@@ -1,4 +1,4 @@
-require_relative "../lib/callback/callback"
+require "callback/callback"
 
 describe Callback do
   before do

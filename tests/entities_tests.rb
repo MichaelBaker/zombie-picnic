@@ -1,4 +1,4 @@
-require_relative "../lib/game/lib/entities"
+require "game/lib/entities"
 
 describe Entities do
   before do

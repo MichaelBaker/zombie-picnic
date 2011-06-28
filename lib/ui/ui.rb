@@ -21,7 +21,7 @@ module ShallotUI
   end
 end
 
-require_relative "./shallot_ui_layer"
-require_relative "./shallot_ui_class"
-require_relative "./widget"
-Dir.glob(File.dirname(__FILE__) + "/widgets/*.rb").each {|filepath| require_relative filepath}
+require "ui/shallot_ui_layer"
+require "ui/shallot_ui_class"
+require "ui/widget"
+Dir.glob(File.expand_path "widgets/*" , File.dirname(__FILE__)).each {|filepath| require filepath}

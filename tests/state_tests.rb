@@ -1,4 +1,4 @@
-require_relative "../lib/game/lib/state"
+require "game/lib/state"
 
 class TestState
   include State

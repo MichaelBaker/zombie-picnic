@@ -1,5 +1,5 @@
 require "gosu"
-require_relative "../lib/ui/ui"
+require "ui/ui"
 
 describe ShallotUI do
   before do

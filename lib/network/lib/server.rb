@@ -1,6 +1,5 @@
 require "socket"
-
-require_relative "connection"
+require "network/lib/connection"
 
 class GameServer
   include Callback

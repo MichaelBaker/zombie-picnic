@@ -1,6 +1,6 @@
 require "yaml"
-require_relative "server_entity_management"
-require_relative "server_state_management"
+require "game/lib/server_entity_management"
+require "game/lib/server_state_management"
 
 class ServerWindow < Window
   include EntityManagement

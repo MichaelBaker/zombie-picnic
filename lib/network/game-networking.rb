@@ -1,10 +1,9 @@
 require "eventmachine"
 
-require_relative "../callback/callback"
-require_relative "./lib/tcp_handler"
-require_relative "./lib/command_messages"
+require "callback/callback"
+require "network/lib/tcp_handler"
+require "network/lib/command_messages"
+require "network/lib/server"
+require "network/lib/client"
 
-Dir.glob(File.dirname(__FILE__) + "/messages/*.rb").each {|filename| require_relative filename}
-
-require_relative "./lib/server"
-require_relative "./lib/client"
+Dir.glob(File.expand_path "messages/*" , File.dirname(__FILE__)).each {|path| require path}
