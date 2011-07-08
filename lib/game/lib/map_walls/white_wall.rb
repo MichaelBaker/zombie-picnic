@@ -36,8 +36,12 @@ class ClientWhiteWall < BaseWhiteWall
   end
   
   def draw(viewport)
-    x = (@first.x - @first.y) * TileHeight + @first.y
-    y = (@first.x + @first.y) * (TileHeight / 2.0) + @first.y + (50 - @image.height)
+    pseudo_tile_x = (@first.x + @second.x) / 2.0
+    pseudo_tile_y = (@first.y + @second.y) / 2.0
+    
+    x = (pseudo_tile_x - pseudo_tile_y) * TileHeight + pseudo_tile_y
+    y = (pseudo_tile_x + pseudo_tile_y) * (TileHeight / 2.0) + pseudo_tile_y + (50 - @image.height)
+    
     @image.draw x - viewport.x , y - viewport.y , 1
   end
 end
