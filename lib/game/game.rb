@@ -4,6 +4,7 @@ require "texplay"
 include Gosu
 
 require "game/lib/state"
+require "game/lib/walls"
 require "game/lib/map"
 require "game/lib/renderer"
 require "ui/ui"

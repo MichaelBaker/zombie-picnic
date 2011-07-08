@@ -31,6 +31,10 @@ class ClientWindow < Window
     @host
   end
   
+  def local_player
+    @entities.find_player_by_client_id(@my_client_id)
+  end
+  
   def host!
     @host = true
   end

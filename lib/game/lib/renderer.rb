@@ -49,14 +49,7 @@ private
 
   def draw_walls
     @map.walls.each do |wall|
-      wall.each do |section|
-        image = section.image
-        
-        x = (section.draw_position.x - section.draw_position.y) * TileHeight + section.draw_position.y
-        y = (section.draw_position.x + section.draw_position.y) * (TileHeight / 2.0) + section.draw_position.y
-        
-        section.image.draw x - viewport.x , y - viewport.y , 1
-      end
+      
     end
   end
   

@@ -56,7 +56,7 @@ class ServerWindow < Window
 
   def load_map(map_name)
     map_path = File.dirname(__FILE__) + "/../../../assets/maps/" + map_name + ".map"
-    @map = BaseMap.new YAML::load_file(map_path)[:tiles] , self
+    @map = BaseMap.new YAML::load_file(map_path) , self
   end
     
   def start
