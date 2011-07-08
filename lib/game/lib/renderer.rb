@@ -1,7 +1,7 @@
+TileWidth  = 100
+TileHeight = 50
+
 module Renderer
-  TileWidth  = 100
-  TileHeight = 50
-  
   def draw
     if @map
       draw_map
@@ -49,7 +49,7 @@ private
 
   def draw_walls
     @map.walls.each do |wall|
-      
+      wall.draw viewport
     end
   end
   

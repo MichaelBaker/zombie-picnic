@@ -28,10 +28,16 @@ class BaseWhiteWall
 end
 
 class ClientWhiteWall < BaseWhiteWall
-  attr_reader :image , :draw_position
+  attr_reader :image
   
   def initialize(info)
     super
     @image = Images["white_wall_#{@direction}".to_sym]
+  end
+  
+  def draw(viewport)
+    x = (@first.x - @first.y) * TileHeight + @first.y
+    y = (@first.x + @first.y) * (TileHeight / 2.0) + @first.y
+    @image.draw x - viewport.x , y - viewport.y , 1
   end
 end
