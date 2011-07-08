@@ -1,58 +1,37 @@
 class BaseWhiteWall
-  attr_accessor :direction , :position
+  attr_accessor :first , :second , :direction
   
-  def initialize(position , direction)
-    @position  = position
-    @direction = direction
+  def initialize(info)
+    x1 = info[:first][:x]
+    y1 = info[:first][:y]
+    
+    x2 = info[:second][:x]
+    y2 = info[:second][:y]
+    
+    @first  = Vector.new x1 , y1
+    @second = Vector.new x2 , y2
+    
+    if x1 != x2
+      @direction = :vertical
+    else
+      @direction = :horizontal
+    end
+  end
+  
+  def to_s
+    "<#{self.class.name} #{@first} #{@second}>"
+  end
+  
+  def <=>(other)
+    @first.distance_to(Vector.new(0 , 0)) <=> other.first.distance_to(Vector.new(0 , 0))
   end
 end
 
 class ClientWhiteWall < BaseWhiteWall
   attr_reader :image , :draw_position
   
-  def initialize(position , direction)
-    super position , direction
-    
-    if direction == :up || direction == :down
-      @image = Images[:white_wall_horizontal]
-    else
-      @image = Images[:white_wall_vertical]
-    end
-    
-    set_draw_position
-  end
-
-private
-
-  def adjusted_x
-    if @direction == :left
-      @position.x - 1.0
-    elsif @direction == :right
-      @position.x
-    elsif @direction == :up
-      @position.x - 0.5
-    elsif @direction == :down
-      @position.x - 0.5
-    else
-      @position.x
-    end
-  end
-
-  def adjusted_y
-    if @direction == :up
-      @position.y - 1.0
-    elsif @direction == :down
-      @position.y + 0.25
-    elsif @direction == :left
-      @position.y - 0.5
-    elsif @direction == :right
-      @position.y - 0.5
-    else
-      @position.y
-    end
-  end
-
-  def set_draw_position
-    @draw_position = Vector.new adjusted_x , adjusted_y
+  def initialize(info)
+    super
+    @image = Images["white_wall_#{@direction}".to_sym]
   end
 end

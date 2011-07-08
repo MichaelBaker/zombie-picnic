@@ -6,6 +6,14 @@ class Vector
     @y = y.to_f
   end
   
+  def hash
+    [@x , @y].hash
+  end
+  
+  def eql?(other)
+    @x == other.x && @y == other.y
+  end
+  
   def up(distance = 1)
     self.class.new(@x , @y - distance)
   end
@@ -28,5 +36,9 @@ class Vector
   
   def distance_to(other)
     (@x - other.x).abs + (@y - other.y).abs
+  end
+  
+  def to_s
+    "<Vector x:#{@x} y:#{@y}>"
   end
 end

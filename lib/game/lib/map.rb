@@ -16,20 +16,21 @@ class BaseMap
     @game     = game
     @start_x  = -1
     @start_y  = 0
-    @walls    = Hash.new {|hash , key| hash[key] = Array.new}
     
-    @tiles = map_hash.inject Hash.new do |hash , info|
+    @tiles = map_hash[:tiles].inject Hash.new do |hash , info|
       tile_class = Kernel.const_get "Base#{info[:type].constantize}Tile"
       position   = Vector.new info[:x] , info[:y]
-      
-      info[:walls].each do |wall|
-        wall_class = Kernel.const_get "Base#{wall[:type].constantize}"
-        @walls[{x: position.x , y: position.y}] << wall_class.new(position , wall[:direction])
-      end if info[:walls]
-      
       hash[{x: position.x , y: position.y}] = tile_class.new(position)
       hash
     end
+    
+    @walls = map_hash[:walls].inject Walls.new do |walls , info|
+      wall_class = Kernel.const_get "Base#{info[:type].constantize}"
+      walls.add wall_class.new(info)
+      walls
+    end
+    
+    @walls.each {|wall| puts wall}
     
     @width  = @tiles.keys.map {|t| t[:x]}.max + 1
     @height = @tiles.keys.map {|t| t[:y]}.max + 1
@@ -61,7 +62,7 @@ class BaseMap
   end
       
   def walls
-    @walls.values
+    @walls
   end
   
   def tiles
@@ -117,22 +118,6 @@ class BaseMap
   end
   
   def blocked_by_wall?(origin , destination)
-    if destination.x == origin.left.x && (right_wall_at?(destination) || left_wall_at?(origin))
-      return true
-    end
-    
-    if destination.x == origin.right.x && (left_wall_at?(destination) || right_wall_at?(origin))
-      return true
-    end
-    
-    if destination.y == origin.up.y && (down_wall_at?(destination) || up_wall_at?(origin))
-      return true
-    end
-    
-    if destination.y == origin.down.y && (up_wall_at?(destination) || down_wall_at?(origin))
-      return true
-    end
-    
     return false
   end
   
@@ -155,19 +140,18 @@ end
 class ClientMap < BaseMap
   def initialize(map_hash , game)
     @game  = game
-    @walls = Hash.new {|hash , key| hash[key] = Array.new}
     
-    @tiles = map_hash.inject Hash.new do |hash , info|
+    @tiles = map_hash[:tiles].inject Hash.new do |hash , info|
       tile_class = Kernel.const_get "Client#{info[:type].capitalize}Tile"
       position   = Vector.new info[:x] , info[:y]
-      
-      info[:walls].each do |wall|
-        wall_class = Kernel.const_get "Client#{wall[:type].constantize}"
-        @walls[{x: position.x , y: position.y}] << wall_class.new(position , wall[:direction])
-      end if info[:walls]
-      
       hash[{x: position.x , y: position.y}] = tile_class.new(position)
       hash
+    end
+    
+    @walls = map_hash[:walls].inject Walls.new do |walls , info|
+      wall_class = Kernel.const_get "Client#{info[:type].constantize}"
+      walls.add wall_class.new(info)
+      walls
     end
     
     @width  = @tiles.keys.map {|t| t[:x]}.max + 1
