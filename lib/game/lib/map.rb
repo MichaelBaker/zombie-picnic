@@ -30,26 +30,8 @@ class BaseMap
       walls
     end
     
-    @walls.each {|wall| puts wall}
-    
     @width  = @tiles.keys.map {|t| t[:x]}.max + 1
     @height = @tiles.keys.map {|t| t[:y]}.max + 1
-  end
-  
-  def right_wall_at?(position)
-    wall_with_direction_at? position , :right
-  end
-  
-  def down_wall_at?(position)
-    wall_with_direction_at? position , :down
-  end
-  
-  def left_wall_at?(position)
-    wall_with_direction_at? position , :left
-  end
-  
-  def up_wall_at?(position)
-    wall_with_direction_at? position , :up
   end
   
   def wall_with_direction_at?(position , direction)
