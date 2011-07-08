@@ -35,64 +35,30 @@
     :x: 8
     :y: 0
     :type: :wood
-    :walls:
-      -
-        :direction: :up
-        :type:      :white_wall
-      -
-        :direction: :left
-        :type:      :white_wall
   -
     :x: 9
     :y: 0
     :type: :wood
-    :walls:
-      -
-        :direction: :up
-        :type:      :white_wall
   -
     :x: 10
     :y: 0
     :type: :wood
-    :walls:
-      -
-        :direction: :up
-        :type:      :white_wall
   -
     :x: 11
     :y: 0
     :type: :wood
-    :walls:
-      -
-        :direction: :up
-        :type:      :white_wall
   -
     :x: 12
     :y: 0
     :type: :wood
-    :walls:
-      -
-        :direction: :up
-        :type:      :white_wall
   -
     :x: 13
     :y: 0
     :type: :wood
-    :walls:
-      -
-        :direction: :up
-        :type:      :white_wall
   -
     :x: 14
     :y: 0
     :type: :wood
-    :walls:
-      -
-        :direction: :up
-        :type:      :white_wall
-      -
-        :direction: :right
-        :type:      :white_wall
   -
     :x: 15
     :y: 0
@@ -169,10 +135,6 @@
     :x: 8
     :y: 1
     :type: :wood
-    :walls:
-      -
-        :direction: :left
-        :type:      :white_wall
   -
     :x: 9
     :y: 1
@@ -197,10 +159,6 @@
     :x: 14
     :y: 1
     :type: :wood
-    :walls:
-      -
-        :direction: :right
-        :type:      :white_wall
   -
     :x: 15
     :y: 1
@@ -277,13 +235,6 @@
     :x: 8
     :y: 2
     :type: :wood
-    :walls:
-      -
-        :direction: :down
-        :type:      :white_wall
-      -
-        :direction: :left
-        :type:      :white_wall
   -
     :x: 9
     :y: 2
@@ -308,10 +259,6 @@
     :x: 14
     :y: 2
     :type: :wood
-    :walls:
-      -
-        :direction: :right
-        :type:      :white_wall
   -
     :x: 15
     :y: 2
@@ -392,53 +339,26 @@
     :x: 9
     :y: 3
     :type: :wood
-    :walls:
-      -
-        :direction: :down
-        :type:      :white_wall
   -
     :x: 10
     :y: 3
     :type: :wood
-    :walls:
-      -
-        :direction: :down
-        :type:      :white_wall
   -
     :x: 11
     :y: 3
     :type: :wood
-    :walls:
-      -
-        :direction: :down
-        :type:      :white_wall
   -
     :x: 12
     :y: 3
     :type: :wood
-    :walls:
-      -
-        :direction: :down
-        :type:      :white_wall
   -
     :x: 13
     :y: 3
     :type: :wood
-    :walls:
-      -
-        :direction: :down
-        :type:      :white_wall
   -
     :x: 14
     :y: 3
     :type: :wood
-    :walls:
-      -
-        :direction: :down
-        :type:      :white_wall
-      -
-        :direction: :right
-        :type:      :white_wall
   -
     :x: 15
     :y: 3
@@ -1679,3 +1599,19 @@
     :x: 24
     :y: 15
     :type: :grass
+    
+:walls:
+  -
+    :first:
+      :x: 8
+      :y: 0
+    :second:
+      :x: 8
+      :y: -1
+  -
+    :first:
+      :x: 8
+      :y: 0
+    :second:
+      :x: 7
+      :y: 0
