@@ -9,13 +9,16 @@ end
 class BaseMap
   include FieldOfView
   
-  attr_reader :tiles , :map_hash
+  attr_reader :tiles , :map_hash , :walls , :dimensions , :edge_vectors
   
   def initialize(map_hash , game)
-    @map_hash = map_hash
-    @game     = game
-    @start_x  = -1
-    @start_y  = 0
+    @map_hash     = map_hash
+    @game         = game
+    @start_x      = -1
+    @start_y      = 0
+    
+    @width  = map_hash[:dimensions][:x]
+    @height = map_hash[:dimensions][:y]
     
     @tiles = map_hash[:tiles].inject Hash.new do |hash , info|
       tile_class = Kernel.const_get "Base#{info[:type].constantize}Tile"
@@ -30,21 +33,7 @@ class BaseMap
       walls
     end
     
-    @width  = @tiles.keys.map {|t| t[:x]}.max + 1
-    @height = @tiles.keys.map {|t| t[:y]}.max + 1
-  end
-  
-  def wall_with_direction_at?(position , direction)
-    walls = walls_at x: position.x , y: position.y
-    walls.any? {|wall| wall.direction == direction}
-  end
-  
-  def walls_at(position)
-    @walls[position]
-  end
-      
-  def walls
-    @walls
+    find_edge_vectors
   end
   
   def tiles
@@ -117,11 +106,30 @@ private
       tiles_reachable_from tile.position , speed - starting_tile.speed_modifier
     end.concat(adjacent_tiles).flatten.uniq
   end
+  
+  def find_edge_vectors
+    @edge_vectors = Array.new
+    
+    [-1 , @width].each do |x|
+      (-1..@height).each do |y|
+        @edge_vectors << Vector.new(x , y)
+      end
+    end
+    
+    [-1 , @height].each do |y|
+      (-1..@width).each do |x|
+        @edge_vectors << Vector.new(x , y)
+      end
+    end
+  end
 end
 
 class ClientMap < BaseMap
   def initialize(map_hash , game)
     @game  = game
+    
+    @width  = map_hash[:dimensions][:x]
+    @height = map_hash[:dimensions][:y]
     
     @tiles = map_hash[:tiles].inject Hash.new do |hash , info|
       tile_class = Kernel.const_get "Client#{info[:type].capitalize}Tile"
@@ -136,7 +144,6 @@ class ClientMap < BaseMap
       walls
     end
     
-    @width  = @tiles.keys.map {|t| t[:x]}.max + 1
-    @height = @tiles.keys.map {|t| t[:y]}.max + 1
+    find_edge_vectors
   end
 end

@@ -16,6 +16,8 @@ class BaseWhiteWall
     else
       @direction = :horizontal
     end
+    
+    @position = Vector.new (@first.x + @second.x) / 2.0 , (@first.y + @second.y) / 2.0
   end
   
   def to_s
@@ -28,7 +30,7 @@ class BaseWhiteWall
 end
 
 class ClientWhiteWall < BaseWhiteWall
-  attr_reader :image
+  attr_reader :image , :position
   
   def initialize(info)
     super
@@ -36,11 +38,8 @@ class ClientWhiteWall < BaseWhiteWall
   end
   
   def draw(viewport)
-    pseudo_tile_x = (@first.x + @second.x) / 2.0
-    pseudo_tile_y = (@first.y + @second.y) / 2.0
-    
-    x = (pseudo_tile_x - pseudo_tile_y) * TileHeight + pseudo_tile_y
-    y = (pseudo_tile_x + pseudo_tile_y) * (TileHeight / 2.0) + pseudo_tile_y + (50 - @image.height)
+    x = (position.x - position.y) * TileHeight + position.y
+    y = (position.x + position.y) * (TileHeight / 2.0) + position.y + (50 - @image.height)
     
     @image.draw x - viewport.x , y - viewport.y , 1
   end

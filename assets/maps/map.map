@@ -1,3 +1,7 @@
+:dimensions:
+  :x: 25
+  :y: 16
+  
 :tiles:
   -
     :x: 0
@@ -1604,11 +1608,27 @@
   -
     :type: white_wall
     :first:
-      :x: 0
-      :y: 0
+      :x: 8
+      :y: 1
     :second:
-      :x: -1
-      :y: 0
+      :x: 7
+      :y: 1
+  -
+    :type: white_wall
+    :first:
+      :x: 8
+      :y: 2
+    :second:
+      :x: 7
+      :y: 2
+  -
+    :type: white_wall
+    :first:
+      :x: 8
+      :y: 2
+    :second:
+      :x: 8
+      :y: 3
   -
     :type: white_wall
     :first:

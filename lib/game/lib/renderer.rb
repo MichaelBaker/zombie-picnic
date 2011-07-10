@@ -2,6 +2,8 @@ TileWidth  = 100
 TileHeight = 50
 
 module Renderer
+  require "perftools"
+  
   def draw
     if @map
       draw_map
@@ -18,7 +20,7 @@ module Renderer
   def draw_debug
     player = @entities.find_player_by_client_id @my_client_id
     
-    @map.do_fov(player.position.x, player.position.y, 8).each do |position|
+    @map.visible_vectors(player.position , @map.edge_vectors).each do |position|
       x = (position.x - position.y) * TileHeight + position.y
       y = (position.x + position.y) * (TileHeight / 2.0) + position.y
       
@@ -27,7 +29,7 @@ module Renderer
   end
   
   def move_viewport(direction)
-    amount = 50
+    amount = 75
     
     case direction
     when :up
