@@ -11,7 +11,7 @@ module Renderer
       
       draw_map(visible)
       draw_tile_highlights
-      draw_entities
+      draw_entities(visible)
       draw_walls
       Images[:directions].draw 1000 , 0 , 1
     end
@@ -67,12 +67,14 @@ private
     end
   end
   
-  def draw_entities
+  def draw_entities(visible_tiles)
     @entities.each do |entity|
-      x = (entity.position.x - entity.position.y) * TileHeight + entity.position.y
-      y = (entity.position.x + entity.position.y) * (TileHeight / 2.0) + entity.position.y
+      if visible_tiles.include? entity.position
+        x = (entity.position.x - entity.position.y) * TileHeight + entity.position.y
+        y = (entity.position.x + entity.position.y) * (TileHeight / 2.0) + entity.position.y
       
-      entity.image.draw(x - viewport.x , y - viewport.y + (50 - entity.image.height) , 1)
+        entity.image.draw(x - viewport.x , y - viewport.y + (50 - entity.image.height) , 1)
+      end
     end
   end
   
