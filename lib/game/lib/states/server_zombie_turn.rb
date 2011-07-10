@@ -13,6 +13,7 @@ class ServerZombieTurn
       @zombies.each do |zombie|
         zombie.move @game.entities , @map
         @game.network.broadcast_tcp_message UpdateEntityAttribute.new(zombie , :position)
+        sleep 0.035
       end
     end
     
