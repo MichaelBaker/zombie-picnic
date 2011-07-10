@@ -2,8 +2,9 @@ class Walls
   include Enumerable
   
   def initialize
-    @first  = Hash.new
-    @second = Hash.new
+    @first    = Hash.new
+    @second   = Hash.new
+    @position = Hash.new
   end
   
   def add(wall)
@@ -14,6 +15,8 @@ class Walls
     @second[wall.second.x] ||= Hash.new
     @second[wall.second.x][wall.second.y] ||= Array.new
     @second[wall.second.x][wall.second.y] << wall
+    
+    @position[wall.position] = wall
   end
   
   def each
@@ -32,5 +35,9 @@ class Walls
     end
     
     results
+  end
+  
+  def between?(origin , destination)
+    @position[Vector.new (origin.x + destination.x) / 2.0 , (origin.y + destination.y) / 2.0]
   end
 end

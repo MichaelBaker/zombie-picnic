@@ -89,7 +89,7 @@ class BaseMap
   end
   
   def blocked_by_wall?(origin , destination)
-    return false
+    @walls.between? origin , destination
   end
   
 private
