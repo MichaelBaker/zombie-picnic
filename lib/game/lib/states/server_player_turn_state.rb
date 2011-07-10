@@ -19,7 +19,7 @@ class ServerPlayerTurnState
   def can_move_to?(player , tile)
     tile &&
     @game.map.reachable_tiles(@player).include?(tile) &&
-    !@game.map.blocked_by_wall?(player.position , tile.position)
+    @game.map.visible_vectors(player.position , @game.map.edge_vectors).include?(tile.position)
   end
   
   def move_player(direction)

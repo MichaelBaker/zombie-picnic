@@ -10,7 +10,7 @@ module Renderer
       visible = @map.visible_vectors(player.position , @map.edge_vectors)
       
       draw_map(visible)
-      draw_tile_highlights
+      draw_tile_highlights(visible)
       draw_entities(visible)
       draw_walls
       Images[:directions].draw 1000 , 0 , 1
@@ -46,11 +46,11 @@ private
     end
   end
   
-  def draw_tile_highlights
-    draw_movment_highlights
+  def draw_tile_highlights(visible_tiles)
+    draw_movment_highlights(visible_tiles)
   end
   
-  def draw_movment_highlights
+  def draw_movment_highlights(visible_tiles)
     @entities.players.each do |player|
       @map.reachable_tiles(player).each do |tile|
         x = (tile.position.x - tile.position.y) * TileHeight + tile.position.y
@@ -62,7 +62,9 @@ private
           highlighter = :other_player_walk_highlight
         end
         
-        Images[highlighter].draw x - viewport.x , y - viewport.y , 1
+        if visible_tiles.include? tile.position
+          Images[highlighter].draw x - viewport.x , y - viewport.y , 1
+        end
       end
     end
   end

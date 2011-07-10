@@ -1,5 +1,5 @@
 class BaseWhiteWall
-  attr_accessor :first , :second , :direction
+  attr_accessor :first , :second , :direction, :position
   
   def initialize(info)
     x1 = info[:first][:x]
@@ -30,7 +30,7 @@ class BaseWhiteWall
 end
 
 class ClientWhiteWall < BaseWhiteWall
-  attr_reader :image , :position
+  attr_reader :image
   
   def initialize(info)
     super
