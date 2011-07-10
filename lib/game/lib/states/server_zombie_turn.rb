@@ -11,7 +11,7 @@ class ServerZombieTurn
   def move_zombies
     while @zombies.any? {|zombie| zombie.can_move? @map}
       @zombies.each do |zombie|
-        zombie.move @game.entities , @map
+        zombie.move @game
         @game.network.broadcast_tcp_message UpdateEntityAttribute.new(zombie , :position)
         sleep 0.035
       end
