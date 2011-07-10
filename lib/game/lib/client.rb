@@ -65,9 +65,7 @@ class ClientWindow < Window
   end
   
   def start
-    PerfTools::CpuProfiler.start("/tmp/draw_debug")
     @network.start
     show
-    PerfTools::CpuProfiler.stop
   end
 end

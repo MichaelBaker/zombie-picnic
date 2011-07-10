@@ -27,8 +27,8 @@ module FieldOfView
     @walls.at(x0 , y0).any? do |wall|
       (wall.position.x < x0 && start.x < wall.position.x) ||
       (wall.position.x > x0 && start.x > wall.position.x) ||
-      (wall.position.y < y0 && start.x < wall.position.y) ||
-      (wall.position.y > y0 && start.x > wall.position.y)
+      (wall.position.y < y0 && start.y < wall.position.y) ||
+      (wall.position.y > y0 && start.y > wall.position.y)
     end
   end
   
