@@ -6,26 +6,17 @@ module Renderer
   
   def draw
     if @map
-      draw_map
+      player  = @entities.find_player_by_client_id @my_client_id
+      visible = @map.visible_vectors(player.position , @map.edge_vectors)
+      
+      draw_map(visible)
       draw_tile_highlights
       draw_entities
       draw_walls
-      draw_debug
       Images[:directions].draw 1000 , 0 , 1
     end
       
     draw_ui
-  end
-  
-  def draw_debug
-    player = @entities.find_player_by_client_id @my_client_id
-    
-    @map.visible_vectors(player.position , @map.edge_vectors).each do |position|
-      x = (position.x - position.y) * TileHeight + position.y
-      y = (position.x + position.y) * (TileHeight / 2.0) + position.y
-      
-      Images[:debug].draw x - viewport.x , y - viewport.y , 1
-    end
   end
   
   def move_viewport(direction)
@@ -85,7 +76,7 @@ private
     end
   end
   
-  def draw_map
+  def draw_map(visible_tiles)
     @map.tiles.each do |tile|
       image = tile.image
       
@@ -93,6 +84,10 @@ private
       y = (tile.position.x + tile.position.y) * (TileHeight / 2.0) + tile.position.y
       
       tile.image.draw x - viewport.x , y - viewport.y + (50 - image.height) , 1
+      
+      unless visible_tiles.include? tile.position
+        Images[:shroud].draw x - viewport.x , y - viewport.y + (50 - image.height) , 1
+      end
     end
   end
 end
